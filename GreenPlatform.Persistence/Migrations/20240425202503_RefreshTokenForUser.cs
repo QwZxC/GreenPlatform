@@ -16,6 +16,12 @@ namespace GreenPlatform.Persistence.Migrations
                 type: "text",
                 nullable: false,
                 defaultValue: "");
+            migrationBuilder.AddColumn<string>(
+                name: "AccessToken",
+                table: "GreenPlatformUser",
+                type: "text",
+                nullable: false,
+                defaultValue: "");
         }
 
         /// <inheritdoc />

@@ -17,9 +17,4 @@ public class RoleService : IRoleService
     {
         return await _roleRepository.FindRoleByNameAsync(name);
     }
-
-    public async Task<List<Role>> FindUserRoles(GreenPlatformUser user)
-    {
-        return await _roleRepository.FindUserRolesAsync(user);
-    }
 }

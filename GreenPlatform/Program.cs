@@ -8,11 +8,10 @@ using System.Text;
 using Service.Abstractions;
 using Domain.Repositories;
 using Persistence.Repositories;
-using Microsoft.AspNetCore.CookiePolicy;
 
 namespace GreenPlatform;
 
-public class Program
+public static class Program
 {
     public static void Main(string[] args)
     {
@@ -33,7 +32,6 @@ public class Program
         builder.Services.AddScoped<IUserService, UserService>();
         builder.Services.AddScoped<IRoleService, RoleService>();
         builder.Services.AddSingleton<IPasswordHasher, PasswordHasher>();
-
 
         builder.Services.AddAuthentication(options =>
         {
@@ -76,12 +74,6 @@ public class Program
         }
         app.UseAuthentication();
         app.UseAuthorization();
-
-        //app.UseCookiePolicy(new CookiePolicyOptions
-        //{
-        //    HttpOnly = HttpOnlyPolicy.Always
-        //});
-           
         app.UseSerilogRequestLogging();
         app.UseHttpsRedirection();
         app.UseStaticFiles();

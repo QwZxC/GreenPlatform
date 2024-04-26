@@ -14,13 +14,7 @@ public class UserRepository : BaseRepository<GreenPlatformUser>, IUserRepository
 
     public async Task<GreenPlatformUser> FindByLoginAsync(string login)
     {
-        return await _context.GreenPlatformUser
+        return await _context.GreenPlatformUser.Include(user => user.Roles)
             .FirstOrDefaultAsync(dbUser => dbUser.Login == login);
-    }
-
-    public async Task<GreenPlatformUser> FindByLoginAndPassword(GreenPlatformUser user)
-    {
-        return await _context.GreenPlatformUser
-            .FirstOrDefaultAsync(dbUser => dbUser.Login == user.Login && dbUser.Password == user.Password);
     }
 }
