@@ -8,6 +8,7 @@ using System.Text;
 using Service.Abstractions;
 using Domain.Repositories;
 using Persistence.Repositories;
+using Microsoft.AspNetCore.CookiePolicy;
 
 namespace GreenPlatform;
 
@@ -18,6 +19,7 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         builder.Services.AddControllersWithViews();
+        builder.Services.AddHttpContextAccessor();
 
         var connectionString = builder.Configuration.GetConnectionString("Default");
 
@@ -30,23 +32,37 @@ public class Program
         builder.Services.AddScoped<ITagRepository, TagRepository>();
         builder.Services.AddScoped<IUserService, UserService>();
         builder.Services.AddScoped<IRoleService, RoleService>();
+        builder.Services.AddSingleton<IPasswordHasher, PasswordHasher>();
 
 
-        builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(options =>
+        builder.Services.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
+        .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+        {
+            options.TokenValidationParameters = new TokenValidationParameters
             {
-                options.TokenValidationParameters = new TokenValidationParameters
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtAuth:Key"]))
+            };
+
+            options.Events = new JwtBearerEvents
+            {
+                OnMessageReceived = context =>
                 {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = builder.Configuration["JwtAuth:Issuer"],
-                    ValidAudience = builder.Configuration["JwtAuth:Issuer"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtAuth:Key"]))
-                };
-            });
+                    context.Token = context.Request.Cookies["Authorization"];
+                    return Task.CompletedTask;
+                }
+            };
+        });
         builder.Services.AddAuthorization();
+
 
         builder.Host.UseSerilog((context, configuration) => 
             configuration.ReadFrom.Configuration(context.Configuration));
@@ -60,10 +76,16 @@ public class Program
         }
         app.UseAuthentication();
         app.UseAuthorization();
+
+        //app.UseCookiePolicy(new CookiePolicyOptions
+        //{
+        //    HttpOnly = HttpOnlyPolicy.Always
+        //});
+           
         app.UseSerilogRequestLogging();
         app.UseHttpsRedirection();
         app.UseStaticFiles();
-
+        
         app.UseRouting();
 
         app.UseAuthorization();

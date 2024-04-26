@@ -11,6 +11,8 @@ public class GreenPlatformUser : BaseEntity
     public string Password { get; set; }
     public DateTime RegistrationDate { get; set; }
     public List<Role> Roles { get; set; }
+    public string AccessToken { get; set; }
+    public string RefreshToken { get; set; }
     public List<Article> Articles { get; set; }
     [NotMapped]
     public List<Subscription> Subscriptions { get; set; }

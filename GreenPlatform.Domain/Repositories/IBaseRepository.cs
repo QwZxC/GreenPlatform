@@ -2,11 +2,11 @@
 
 namespace Domain.Repositories;
 
-public interface IBaseRepository
+public interface IBaseRepository<TEntity> where TEntity : BaseEntity
 {
-    void AddEntity(BaseEntity entity);
-    void Update(BaseEntity entity);
+    void AddEntity(TEntity entity);
+    void Update(TEntity entity);
     Task SaveAsync();
-    void Delete(BaseEntity entity);
-    Task<List<BaseEntity>> FindAllAsync();
+    void Delete(TEntity entity);
+    Task<List<TEntity>> FindAllAsync();
 }

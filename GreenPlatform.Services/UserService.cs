@@ -6,38 +6,57 @@ namespace Services;
 
 public class UserService : IUserService
 {
-    private readonly IUserRepository userRepository;
-    private readonly IRoleService roleService;
-    public UserService(IUserRepository userRepository, IRoleService roleService)
+    private readonly IUserRepository _userRepository;
+    private readonly IRoleService _roleService;
+    private readonly IPasswordHasher _passwordHasher;
+    public UserService(IUserRepository userRepository, IRoleService roleService, IPasswordHasher passwordHasher)
     {
-        this.userRepository = userRepository;
-        this.roleService = roleService;
+        _userRepository = userRepository;
+        _roleService = roleService;
+        _passwordHasher = passwordHasher;
     }
 
     public async Task<GreenPlatformUser> CreateUserAsync(string login, string password)
     {
-        Role role = await roleService.FindRoleByNameAsync("User");
+        Role role = await _roleService.FindRoleByNameAsync("User");
+        string hashedPassword = _passwordHasher.Generate(password);
         GreenPlatformUser user = new()
         {
+            Id = Guid.NewGuid(),
             Login = login,
-            Password = password,
+            Password = hashedPassword,
             RegistrationDate = DateTime.UtcNow,
             Roles = new List<Role>() { role }
         };
-        userRepository.AddEntity(user);
+        _userRepository.AddEntity(user);
         role.Users.Add(user);
-        await userRepository.SaveAsync();
         return user;
+    }
+
+    public async Task<List<GreenPlatformUser>> FindAllAsync()
+    {
+        return await _userRepository.FindAllAsync();
     }
 
     public async Task<GreenPlatformUser> FindUserByLoginAndPasswordAsync(string login, string password)
     {
-        GreenPlatformUser user = new GreenPlatformUser() { Login = login, Password = password };
-        return await userRepository.FindByLoginAndPassword(user);
+        GreenPlatformUser user = await _userRepository.FindByLoginAsync(login);
+
+        if (_passwordHasher.Verify(password, user.Password))
+        {
+            return user;
+        }
+
+        return null;
     }
 
     public async Task<GreenPlatformUser> FindUserByLoginAsync(string login)
     {
-        return await userRepository.FindByLoginAsync(login);
+        return await _userRepository.FindByLoginAsync(login);
+    }
+
+    public async Task SaveAsync()
+    {
+        await _userRepository.SaveAsync();
     }
 }

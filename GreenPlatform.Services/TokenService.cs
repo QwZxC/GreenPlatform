@@ -11,13 +11,15 @@ public class TokenService : ITokenService
 {
     
     private readonly IConfiguration configuration;
+    private readonly IUserService _userService;
 
-    public TokenService(IConfiguration configuration)
+    public TokenService(IConfiguration configuration, IUserService userService)
     {
         this.configuration = configuration;
+        _userService = userService;
     }
 
-    public string CreateToken(GreenPlatformUser user, List<Role> roles)
+    public string GenerateAccessToken(GreenPlatformUser user, List<Role> roles)
     {
         var token = user
                 .CreateClaims(roles)
@@ -29,7 +31,7 @@ public class TokenService : ITokenService
 
     public string GenerateRefreshToken()
     {
-        throw new NotImplementedException();
+        return configuration.GenerateRefreshToken();
     }
 
     public ClaimsPrincipal GetPrincipal(string accessToken)
@@ -39,11 +41,16 @@ public class TokenService : ITokenService
 
     public DateTime GetRefreshTokenExpiryTime()
     {
-        throw new NotImplementedException();
+        return DateTime.UtcNow.AddDays(configuration.GetSection("JwtAuth:RefreshTokenValidityInDays").Get<int>());
     }
 
-    public Task RevokeAllAsync()
+    public async Task RevokeAllAsync()
     {
-        throw new NotImplementedException();
+        List<GreenPlatformUser> users = await _userService.FindAllAsync();
+        foreach (GreenPlatformUser user in users)
+        {
+            user.AccessToken = null;
+        }
+        await _userService.SaveAsync();
     }
 }

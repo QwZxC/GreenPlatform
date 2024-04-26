@@ -1,21 +1,29 @@
 ﻿using Domain.Entities;
 using GreenPlatform.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Abstractions;
 
 namespace GreenPlatform.Controllers;
 
+[AllowAnonymous]
 public class AccountController : Controller
 {
     private readonly IUserService _userService;
     private readonly ITokenService _tokenService;
     private readonly IRoleService _roleService;
+    private readonly IHttpContextAccessor _contextAccessor;
 
-    public AccountController(IUserService userService, ITokenService tokenService, IRoleService roleService)
+    public AccountController(
+        IUserService userService, 
+        ITokenService tokenService,
+        IRoleService roleService,
+        IHttpContextAccessor contextAccessor)
     {
         _tokenService = tokenService;
         _userService = userService;
         _roleService = roleService;
+        _contextAccessor = contextAccessor;
     }
 
     public IActionResult Login()
@@ -41,7 +49,10 @@ public class AccountController : Controller
         }
 
         List<Role> userRoles = await _roleService.FindUserRoles(user);
-        string accessToken = _tokenService.CreateToken(user, userRoles);
+        user.AccessToken = _tokenService.GenerateAccessToken(user, userRoles);
+        await _userService.SaveAsync();
+
+        _contextAccessor?.HttpContext.Response.Cookies.Append("Authorization", user.AccessToken);
 
         return RedirectToAction("Index", "Home");
     }
@@ -61,6 +72,7 @@ public class AccountController : Controller
 
         GreenPlatformUser user = await
             _userService.FindUserByLoginAsync(model.Login);
+
         if (user != null)
         {
             ModelState.AddModelError("", "Пользователь с таким логином уже зарегистрирован");
@@ -68,9 +80,11 @@ public class AccountController : Controller
         }
 
         user = await _userService.CreateUserAsync(model.Login, model.Password);
-        List<Role> userRoles = await _roleService.FindUserRoles(user);
-        string accessToken = _tokenService.CreateToken(user, userRoles);
+        user.AccessToken = _tokenService.GenerateAccessToken(user, user.Roles);
+        user.RefreshToken = _tokenService.GenerateRefreshToken();
+        await _userService.SaveAsync();
 
+        _contextAccessor?.HttpContext.Response.Cookies.Append("Authorization", user.AccessToken);
         return RedirectToAction("Index", "Home");
     }
 

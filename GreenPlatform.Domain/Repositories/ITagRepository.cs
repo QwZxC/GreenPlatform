@@ -1,5 +1,7 @@
-﻿namespace Domain.Repositories;
+﻿using Domain.Entities;
 
-public interface ITagRepository : IBaseRepository
+namespace Domain.Repositories;
+
+public interface ITagRepository : IBaseRepository<Tag>
 {
 }

@@ -15,11 +15,9 @@ public static class JwtBearerExtensions
     {
         var claims = new List<Claim>
             {
-                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString(CultureInfo.InvariantCulture)),
-                new(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new(ClaimTypes.Name, user.Login!),
-                new(ClaimTypes.Role, string.Join(" ", roles.Select(x => x.Name!))),
+                new("UserId", user.Id.ToString()),
+                new("Login", user.Login!),
+                new("Roles", string.Join(" ", roles.Select(x => x.Name!))),
             };
         return claims;
     }
@@ -39,9 +37,7 @@ public static class JwtBearerExtensions
         long expire = configuration.GetSection("JwtAuth:Expire").Get<int>();
 
         return new JwtSecurityToken(
-            configuration["JwtAuth:Issuer"],
-            configuration["JwtAuth:Audience"],
-            claims,
+            claims: claims,
             expires: DateTime.UtcNow.AddMinutes(expire),
             signingCredentials: configuration.CreateSigningCredentials()
         );

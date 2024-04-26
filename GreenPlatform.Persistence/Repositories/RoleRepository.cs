@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Persistence.Repositories;
 
-public class RoleRepository : BaseRepository, IRoleRepository
+public class RoleRepository : BaseRepository<Role>, IRoleRepository
 {
     public RoleRepository(GreenPlatformDbContext context) : base(context)
     {

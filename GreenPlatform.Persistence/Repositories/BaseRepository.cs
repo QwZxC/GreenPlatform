@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Persistence.Repositories;
 
-public abstract class BaseRepository : IBaseRepository
+public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : BaseEntity
 {
     protected readonly GreenPlatformDbContext _context;
 
@@ -13,19 +13,19 @@ public abstract class BaseRepository : IBaseRepository
         _context = context;
     }
 
-    public void AddEntity(BaseEntity entity)
+    public void AddEntity(TEntity entity)
     {
         _context.Add(entity);
     }
 
-    public void Delete(BaseEntity entity)
+    public void Delete(TEntity entity)
     {
         _context.Remove(entity);
     }
 
-    public async Task<List<BaseEntity>> FindAllAsync()
+    public async Task<List<TEntity>> FindAllAsync()
     {
-        return await _context.Set<BaseEntity>().ToListAsync();
+        return await _context.Set<TEntity>().ToListAsync();
     }
 
     public async Task SaveAsync()
@@ -33,7 +33,7 @@ public abstract class BaseRepository : IBaseRepository
         await _context.SaveChangesAsync();
     }
 
-    public void Update(BaseEntity entity)
+    public void Update(TEntity entity)
     {
         _context.Update(entity);
     }

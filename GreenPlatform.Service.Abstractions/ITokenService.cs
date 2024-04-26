@@ -31,5 +31,5 @@ public interface ITokenService
     /// <param name="user"></param>
     /// <param name="role"></param>
     /// <returns></returns>
-    string CreateToken(GreenPlatformUser user, List<Role> roles);
+    string GenerateAccessToken(GreenPlatformUser user, List<Role> roles);
 }

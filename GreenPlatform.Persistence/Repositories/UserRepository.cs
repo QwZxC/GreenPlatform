@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Persistence.Repositories;
 
-public class UserRepository : BaseRepository, IUserRepository
+public class UserRepository : BaseRepository<GreenPlatformUser>, IUserRepository
 {
 
     public UserRepository(GreenPlatformDbContext context) : base(context)
