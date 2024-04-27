@@ -2,7 +2,7 @@
 using GreenPlatform.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Service.Abstractions;
+using Domain.Services;
 
 namespace GreenPlatform.Controllers;
 
