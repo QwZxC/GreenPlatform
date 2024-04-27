@@ -1,6 +1,6 @@
 ﻿using Domain.Services;
 
-namespace Services;
+namespace Core;
 
 public class PasswordHasher : IPasswordHasher
 {

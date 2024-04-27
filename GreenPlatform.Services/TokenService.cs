@@ -4,7 +4,7 @@ using Domain.Services;
 using Domain.Extensions;
 using System.IdentityModel.Tokens.Jwt;
 
-namespace Services;
+namespace Core;
 
 public class TokenService : ITokenService
 {

@@ -3,7 +3,7 @@ using Domain.Repositories;
 using Microsoft.AspNetCore.Http;
 using Domain.Services;
 
-namespace Services;
+namespace Core;
 
 public class UserService : IUserService
 {

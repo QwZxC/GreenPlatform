@@ -1,7 +1,7 @@
 ﻿using Domain.Repositories;
 using Domain.Services;
 
-namespace Services;
+namespace Core;
 
 public sealed class TagService : ITagService
 {

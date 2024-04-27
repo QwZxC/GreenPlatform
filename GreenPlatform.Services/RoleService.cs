@@ -2,7 +2,7 @@
 using Domain.Repositories;
 using Domain.Services;
 
-namespace Services;
+namespace Core;
 
 public class RoleService : IRoleService
 {
