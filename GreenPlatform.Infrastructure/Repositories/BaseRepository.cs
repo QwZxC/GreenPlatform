@@ -23,7 +23,7 @@ public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where T
         _context.Remove(entity);
     }
 
-    public async Task<List<TEntity>> FindAllAsync()
+    public virtual async Task<List<TEntity>> FindAllAsync()
     {
         return await _context.Set<TEntity>().ToListAsync();
     }

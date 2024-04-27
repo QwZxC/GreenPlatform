@@ -38,7 +38,7 @@ public class AccountController : Controller
         }
 
         await _userService.LoginAsync(user);
-        return RedirectToAction("Index", "Home");
+        return RedirectToAction("Articles", "Article");
     }
 
     public IActionResult Register()
@@ -61,7 +61,7 @@ public class AccountController : Controller
         }
 
         await _userService.LoginAsync(await _userService.CreateUserAsync(model.Login, model.Password));
-        return RedirectToAction("Index", "Home");
+        return RedirectToAction("Articles", "Article");
     }
 
     public IActionResult Logout()

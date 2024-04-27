@@ -1,0 +1,26 @@
+﻿ @using GreenPlatform.Models;
+ @model ArticleListViewModel
+ 
+ <div>
+    @{
+        <div>
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>Статьи</h2>
+                <button class="btn btn-outline-success">Добавить</button>
+            </div>
+            @{
+                foreach (var article in Model.Articles)
+                {
+                    <div>
+                        <a class="text-decoration-none"
+                           asp-action="Article"
+                           asp-route-articleId="@article.Id">
+                            <h3>@article.Title</h3>
+                        </a>
+                        <h4>@article.Owner.Login</h4>
+                    </div>
+                }
+            }
+        </div>
+     }
+ </div>
