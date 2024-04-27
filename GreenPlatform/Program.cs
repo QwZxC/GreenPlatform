@@ -2,12 +2,12 @@ using Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Persistence;
+using Infrastructure;
 using Serilog;
 using System.Text;
 using Domain.Services;
 using Domain.Repositories;
-using Persistence.Repositories;
+using Infrastructure.Repositories;
 
 namespace GreenPlatform;
 

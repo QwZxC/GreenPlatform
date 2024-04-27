@@ -2,7 +2,7 @@
 using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 
-namespace Persistence.Repositories;
+namespace Infrastructure.Repositories;
 
 public class RoleRepository : BaseRepository<Role>, IRoleRepository
 {

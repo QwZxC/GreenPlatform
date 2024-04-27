@@ -1,7 +1,7 @@
 ﻿using Domain.Entities;
 using Domain.Repositories;
 
-namespace Persistence.Repositories;
+namespace Infrastructure.Repositories;
 
 public class TagRepository : BaseRepository<Tag>, ITagRepository
 {

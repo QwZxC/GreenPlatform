@@ -2,7 +2,7 @@
 using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 
-namespace Persistence.Repositories;
+namespace Infrastructure.Repositories;
 
 public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : BaseEntity
 {
