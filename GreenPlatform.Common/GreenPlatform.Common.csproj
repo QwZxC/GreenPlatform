@@ -7,11 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\GreenPlatform.Common\GreenPlatform.Common.csproj" />
     <ProjectReference Include="..\GreenPlatform.Domain\GreenPlatform.Domain.csproj" />
   </ItemGroup>
 

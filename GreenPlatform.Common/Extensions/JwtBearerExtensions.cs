@@ -1,13 +1,12 @@
 ﻿using Domain.Entities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Domain.Extensions;
+namespace Common.Extensions;
 
 public static class JwtBearerExtensions
 {

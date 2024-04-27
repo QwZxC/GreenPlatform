@@ -1,7 +1,7 @@
 ﻿using Domain.Entities;
 using Microsoft.Extensions.Configuration;
 using Domain.Services;
-using Domain.Extensions;
+using Common.Extensions;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace Core;
