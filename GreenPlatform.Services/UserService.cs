@@ -1,7 +1,7 @@
 ﻿using Domain.Entities;
 using Domain.Repositories;
 using Microsoft.AspNetCore.Http;
-using Service.Abstractions;
+using Domain.Services;
 
 namespace Services;
 

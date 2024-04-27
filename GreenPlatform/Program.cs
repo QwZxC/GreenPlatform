@@ -5,7 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using Persistence;
 using Serilog;
 using System.Text;
-using Service.Abstractions;
+using Domain.Services;
 using Domain.Repositories;
 using Persistence.Repositories;
 

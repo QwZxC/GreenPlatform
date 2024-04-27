@@ -20,7 +20,6 @@
   <ItemGroup>
     <ProjectReference Include="..\GreenPlatform.Domain\GreenPlatform.Domain.csproj" />
     <ProjectReference Include="..\GreenPlatform.Persistence\GreenPlatform.Persistence.csproj" />
-    <ProjectReference Include="..\GreenPlatform.Service.Abstractions\GreenPlatform.Service.Abstractions.csproj" />
     <ProjectReference Include="..\GreenPlatform.Services\GreenPlatform.Services.csproj" />
   </ItemGroup>
 

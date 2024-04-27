@@ -1,6 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Repositories;
-using Service.Abstractions;
+using Domain.Services;
 
 namespace Services;
 

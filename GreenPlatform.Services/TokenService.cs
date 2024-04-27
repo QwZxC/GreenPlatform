@@ -1,6 +1,6 @@
 ﻿using Domain.Entities;
 using Microsoft.Extensions.Configuration;
-using Service.Abstractions;
+using Domain.Services;
 using Domain.Extensions;
 using System.IdentityModel.Tokens.Jwt;
 
