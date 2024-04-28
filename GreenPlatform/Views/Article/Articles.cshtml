@@ -1,4 +1,4 @@
-﻿ @using GreenPlatform.Models;
+﻿ @using Domain.Dtos;
  @model ArticleListViewModel
  
  <div>
@@ -6,7 +6,9 @@
         <div>
             <div class="d-flex justify-content-between align-items-center">
                 <h2>Статьи</h2>
-                <button class="btn btn-outline-success">Добавить</button>
+                <a class="btn btn-outline-success" asp-action="Create">
+                    Добавить
+                </a>
             </div>
             @{
                 foreach (var article in Model.Articles)

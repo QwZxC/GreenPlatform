@@ -17,7 +17,7 @@ public static class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        builder.Services.AddControllersWithViews();
+        builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
         builder.Services.AddHttpContextAccessor();
 
         var connectionString = builder.Configuration.GetConnectionString("Default");

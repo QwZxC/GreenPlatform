@@ -1,4 +1,4 @@
-using GreenPlatform.Models;
+using Domain.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;

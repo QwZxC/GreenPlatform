@@ -1,1 +1,31 @@
-﻿
+﻿@using Domain.Dtos;
+@model CreateArticleViewModel
+
+<div class="row d-flex align-items-center justify-content-center">
+    <div class="col-md-3 card p-3">
+        <h2 class="text-center text-success">Напишите свою статью</h2>
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly"></div>
+            <div class="mb-1">
+                <label asp-for="Title"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+
+            <div class="mb-1">
+                <label asp-for="Content"></label>
+                <input asp-for="Content" class="form-control" />
+                <span asp-validation-for="Content" class="text-danger"></span>
+            </div>
+
+            <div class="row">
+                <div class="col-8">
+                    <a asp-action="Articles" class="btn btn-danger">Отмена</a>
+                </div>
+                <div class="col-4">
+                    <input type="submit" value="Создать" class="btn btn-primary btn-sm float-end" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

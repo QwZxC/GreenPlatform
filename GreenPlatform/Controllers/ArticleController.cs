@@ -1,5 +1,5 @@
 ﻿using Domain.Services;
-using GreenPlatform.Models;
+using Domain.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -36,10 +36,24 @@ public class ArticleController : Controller
         return View(viewModel);
     }
 
+    [HttpGet]
     [Authorize]
-    [HttpPost]
+    [Route("new")]
     public async Task<IActionResult> Create()
     {
         return View();
+    }
+
+    [HttpPost]
+    [Authorize]
+    [Route("new")]
+    public async Task<IActionResult> Create(CreateArticleViewModel viewModel)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View();
+        }
+        await _articleService.CreateAsync(viewModel);
+        return RedirectToAction("Articles");
     }
 }

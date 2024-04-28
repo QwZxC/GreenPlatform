@@ -1,5 +1,5 @@
 ﻿using Domain.Entities;
-using GreenPlatform.Models;
+using Domain.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Domain.Services;

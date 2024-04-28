@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace GreenPlatform.Models;
+namespace Domain.Dtos;
 
 public class LoginViewModel
 {

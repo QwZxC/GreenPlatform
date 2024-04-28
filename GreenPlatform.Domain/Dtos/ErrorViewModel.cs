@@ -1,4 +1,4 @@
-namespace GreenPlatform.Models;
+namespace Domain.Dtos;
 
 public class ErrorViewModel
 {

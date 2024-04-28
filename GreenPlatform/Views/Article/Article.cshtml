@@ -1,6 +1,11 @@
-﻿ @using GreenPlatform.Models;
+﻿ @using Domain.Dtos;
  @model SelectedArticleViewModel
 
 <div>
-    <h2>Работает</h2>
+    <h1 class ="display-4">@Model.SelectedArticle.Title</h1>
+    <h2 class="display-5">Автор: @Model.SelectedArticle.Owner.Login</h2>
+    <h2 class="display-6">Дата публикации: @Model.SelectedArticle.CreationDate.ToShortDateString()</h2>
+</div>
+<div class="display-3">
+    @Model.SelectedArticle.Content
 </div>
