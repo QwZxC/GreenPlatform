@@ -18,7 +18,10 @@ public class ArticleRepository : BaseRepository<Article>, IArticleRepository
 
     public async Task<Article> FindArticleByIdAsync(Guid id)
     {
-        return await _context.Article.Include(article => article.Owner)
-            .FirstOrDefaultAsync(article => article.Id == id) ?? throw new NotFoundException("Статья не найдена");
+        return await _context.Article
+            .Include(article => article.Owner)
+            .Include(article => article.Comments)
+            .FirstOrDefaultAsync(article => article.Id == id)
+            ?? throw new NotFoundException("Статья не найдена");
     }
 }

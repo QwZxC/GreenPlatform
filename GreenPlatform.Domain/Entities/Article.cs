@@ -10,4 +10,5 @@ public class Article : BaseEntity
     public GreenPlatformUser Owner { get; set; }
     public DateTime CreationDate { get; set; }
     public List<Tag> Tags { get; set; }
+    public List<Comment> Comments { get; set; }
 }

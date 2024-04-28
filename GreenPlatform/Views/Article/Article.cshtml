@@ -9,3 +9,22 @@
 <div class="display-3">
     @Model.SelectedArticle.Content
 </div>
+<div>
+    <h3>Комментарии</h3>
+    @{
+        if (Model.SelectedArticle.Comments.Count == 0)
+        {
+            <label>Комментариев нет</label>
+        }
+        else
+        {
+            foreach (var comment in Model.SelectedArticle.Comments)
+            {
+                <div class="row">
+                    <label>@comment.Creator.Login</label>
+                    <label>@comment.Content</label>
+                </div>
+            }
+        }
+    }
+</div>
