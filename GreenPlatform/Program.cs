@@ -34,6 +34,8 @@ public static class Program
         builder.Services.AddScoped<IArticleRepository, ArticleRepository>();
         builder.Services.AddScoped<IArticleService, ArticleService>();
         builder.Services.AddScoped<IRoleService, RoleService>();
+        builder.Services.AddScoped<ICommentService, CommentService>();
+        builder.Services.AddScoped<ICommentRepository, CommentRepository>();
         builder.Services.AddSingleton<IPasswordHasher, PasswordHasher>();
 
         builder.Services.AddAuthentication(options =>

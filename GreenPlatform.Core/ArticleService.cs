@@ -9,13 +9,13 @@ namespace Core;
 public class ArticleService : IArticleService
 {
     private readonly IArticleRepository _articleRepository;
-    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IUserService _userService;
 
     public ArticleService(IArticleRepository articleRepository,
-        IHttpContextAccessor httpContextAccessor)
+        IUserService userService)
     {
         _articleRepository = articleRepository;
-        _httpContextAccessor = httpContextAccessor;
+        _userService = userService;
     }
 
     public async Task CreateAsync(CreateArticleViewModel viewModel)
@@ -25,8 +25,7 @@ public class ArticleService : IArticleService
             Id = Guid.NewGuid(),
             Title = viewModel.Title,
             Content = viewModel.Content,
-            OwnerId = Guid.Parse(_httpContextAccessor.HttpContext.
-                                        User.Claims.First(claim => claim.Type == "UserId").Value)
+            OwnerId = _userService.GetAuthorizeUserId()
         };
         _articleRepository.AddEntity(article);
         await _articleRepository.SaveAsync();

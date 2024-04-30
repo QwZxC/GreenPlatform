@@ -12,6 +12,11 @@
 <div>
     <h3>Комментарии</h3>
     @{
+        CreateCommentViewModel vm = new CreateCommentViewModel();
+        vm.ArticleId = Model.SelectedArticle.Id;
+        await Html.RenderPartialAsync("..\\Comment\\_CreateComment.cshtml", vm);
+    }
+    @{
         if (Model.SelectedArticle.Comments.Count == 0)
         {
             <label>Комментариев нет</label>
@@ -20,8 +25,11 @@
         {
             foreach (var comment in Model.SelectedArticle.Comments)
             {
-                <div class="row">
-                    <label>@comment.Creator.Login</label>
+                <div class="row mb-2 card d-flex align-items-start justify-content-start">
+                    <div class="column">
+                        <label>@comment.Creator.Login</label>
+                        <label>@comment.CreationDate.ToShortDateString() @comment.CreationDate.ToShortTimeString()</label>
+                    </div>
                     <label>@comment.Content</label>
                 </div>
             }

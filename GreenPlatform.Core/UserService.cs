@@ -87,4 +87,11 @@ public class UserService : IUserService
     {
         await _userRepository.SaveAsync();
     }
+
+    public Guid GetAuthorizeUserId()
+    {
+        return Guid
+            .Parse(_contextAccessor
+            .HttpContext.User.Claims.First(claim => claim.Type == "UserId").Value);
+    }
 }
