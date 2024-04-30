@@ -2,7 +2,6 @@
 using Domain.Services;
 using Domain.Repositories;
 using Domain.Dtos;
-using Microsoft.AspNetCore.Http;
 
 namespace Core;
 
@@ -25,7 +24,8 @@ public class ArticleService : IArticleService
             Id = Guid.NewGuid(),
             Title = viewModel.Title,
             Content = viewModel.Content,
-            OwnerId = _userService.GetAuthorizeUserId()
+            OwnerId = _userService.GetAuthorizeUserId(),
+            CreationDate = DateTime.UtcNow,
         };
         _articleRepository.AddEntity(article);
         await _articleRepository.SaveAsync();
@@ -34,6 +34,12 @@ public class ArticleService : IArticleService
     public async Task<List<Article>> FindAllArticlesAsync()
     {
         return await _articleRepository.FindAllAsync();
+    }
+
+    public async Task<List<Article>> FindAllArticlesForUserAsync()
+    {
+        return await _articleRepository
+            .FindAllArticlesForUserAsync(_userService.GetAuthorizeUserId());
     }
 
     public async Task<Article> FindArticleByIdAsync(Guid id)

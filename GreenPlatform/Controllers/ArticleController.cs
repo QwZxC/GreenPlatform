@@ -18,9 +18,19 @@ public class ArticleController : Controller
 
     public async Task<IActionResult> Articles()
     {
-        var viewModel= new ArticleListViewModel()
+        var viewModel = new ArticleListViewModel()
         {
             Articles = await _articleService.FindAllArticlesAsync()
+        };
+        return View(viewModel);
+    }
+
+    [Route("/my")]
+    public async Task<IActionResult> MyArticles()
+    {
+        var viewModel = new ArticleListViewModel()
+        {
+            Articles = await _articleService.FindAllArticlesForUserAsync()
         };
         return View(viewModel);
     }

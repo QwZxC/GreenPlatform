@@ -7,5 +7,6 @@ public interface IArticleService
 {
     Task CreateAsync(CreateArticleViewModel viewModel);
     Task<List<Article>> FindAllArticlesAsync();
+    Task<List<Article>> FindAllArticlesForUserAsync();
     Task<Article> FindArticleByIdAsync(Guid id);
 }

@@ -11,6 +11,12 @@ public class ArticleRepository : BaseRepository<Article>, IArticleRepository
     {
     }
 
+    public async Task<List<Article>> FindAllArticlesForUserAsync(Guid userId)
+    {
+        return await _context.Article.Where(article => article.OwnerId == userId)
+            .ToListAsync();
+    }
+
     public async override Task<List<Article>> FindAllAsync()
     {
         return await _context.Article.Include(article => article.Owner).ToListAsync();

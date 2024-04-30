@@ -1,0 +1,37 @@
+﻿@using Domain.Dtos;
+@model ArticleListViewModel
+
+<div class="row d-flex align-items-center justify-content-center mb-3">
+    <div class="col-md-3 card p-3">
+        <h2 class="text-center text-success">Ваши статьи</h2>
+    </div>
+</div>
+
+@{
+    if (Model.Articles.Count != 0)
+    {
+        foreach (var article in Model.Articles)
+        {
+            <div class="d-flex flex-column bd-highlight mb-3">
+                <div class="p-2 bd-highlight card">
+                    <a class="text-decoration-none"
+                       asp-action="Article"
+                       asp-route-articleId="@article.Id">
+                        <h3>@article.Title</h3>
+                    </a>
+                    <h4>@article.CreationDate.ToShortDateString() @article.CreationDate.ToShortTimeString()</h4>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="d-flex align-items-center justify-content-center card">
+            <a class="text-decoration-none"
+               asp-action="Create">
+                <h3>У вас ещё нет статей. Хотите создать?</h3>
+            </a>
+        </div>
+    }
+}
+
