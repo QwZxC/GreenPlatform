@@ -8,6 +8,7 @@ using System.Text;
 using Domain.Services;
 using Domain.Repositories;
 using Infrastructure.Repositories;
+using GreenPlatform.Hubs;
 
 namespace GreenPlatform;
 
@@ -22,6 +23,8 @@ public static class Program
 
         var connectionString = builder.Configuration.GetConnectionString("Default");
 
+        builder.Services.AddSignalR();
+        
         builder.Services.AddDbContext<GreenPlatformDbContext>(optinons =>
             optinons.UseNpgsql(connectionString));
 
@@ -86,6 +89,7 @@ public static class Program
         app.UseRouting();
 
         app.UseAuthorization();
+        app.MapHub<CommentHub>("comment-hub");
 
         app.MapControllerRoute(
             name: "default",
