@@ -23,10 +23,15 @@ public class CommentController : Controller
     {
         if (!ModelState.IsValid)
         {
-            return PartialView();
+            return ReturnToArticle(viewModel.ArticleId);
         }
         await _commentService.CreateCommentAsync(viewModel);
+        return ReturnToArticle(viewModel.ArticleId);
+    }
 
-        return RedirectToAction("Article", "Article", new { articleId = viewModel.ArticleId });
+    [NonAction]
+    private IActionResult ReturnToArticle(Guid articleId)
+    {
+        return RedirectToAction("Article", "Article", new { articleId });
     }
 }

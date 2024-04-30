@@ -25,7 +25,8 @@ public class ArticleController : Controller
         return View(viewModel);
     }
 
-    [Route("/my")]
+    [Route("my")]
+    [Authorize]
     public async Task<IActionResult> MyArticles()
     {
         var viewModel = new ArticleListViewModel()
@@ -42,7 +43,6 @@ public class ArticleController : Controller
         {
             SelectedArticle = await _articleService.FindArticleByIdAsync(articleId)
         };
-
         return View(viewModel);
     }
 
