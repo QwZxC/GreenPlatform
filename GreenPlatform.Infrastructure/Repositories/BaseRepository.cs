@@ -1,4 +1,5 @@
-﻿using Domain.Entities.Base;
+﻿using Common.Exceptions;
+using Domain.Entities.Base;
 using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,24 +9,32 @@ public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where T
 {
     protected readonly GreenPlatformDbContext _context;
 
-    public BaseRepository(GreenPlatformDbContext context)
+    protected BaseRepository(GreenPlatformDbContext context)
     {
         _context = context;
     }
 
     public void AddEntity(TEntity entity)
     {
-        _context.Add(entity);
+        _context.Set<TEntity>().Add(entity);
     }
 
     public void Delete(TEntity entity)
     {
-        _context.Remove(entity);
+        _context.Set<TEntity>().Remove(entity);
     }
 
     public virtual async Task<List<TEntity>> FindAllAsync()
     {
         return await _context.Set<TEntity>().ToListAsync();
+    }
+
+    public async Task<TEntity> FindByIdAsync(Guid id)
+    {
+        return await _context
+            .Set<TEntity>()
+            .FirstOrDefaultAsync(entity => entity.Id == id) 
+            ?? throw new NotFoundException($"Не удалось найти {typeof(TEntity)} c id: {id}");
     }
 
     public async Task SaveAsync()

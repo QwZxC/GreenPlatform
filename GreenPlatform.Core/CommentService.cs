@@ -30,6 +30,16 @@ public class CommentService : ICommentService
         await _commentRepository.SaveAsync();
     }
 
+    public async Task DeleteCommentAsync(Guid commentId)
+    {
+        Comment comment = await _commentRepository.FindByIdAsync(commentId);
+        if (comment.CreatorId == _userService.GetAuthorizeUserId())
+        {
+            _commentRepository.Delete(comment);
+            await _commentRepository.SaveAsync();
+        }
+    }
+
     public async Task<List<Comment>> FindCommentsByArticleIdAsync(Guid articleId)
     {
         return await _commentRepository.FindCommentsByArticleId(articleId);

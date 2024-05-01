@@ -40,10 +40,17 @@
                             Guid userId = userService.GetAuthorizeUserId();
                             if (comment.CreatorId == userId || Model.SelectedArticle.OwnerId == userId)
                             {
-                                <button class="col align-self-end btn btn-danger mb-3 mw-100"
-                                        asp-route-articleId="@comment.Id">
-                                    <h3>Удалить</h3>
-                                </button>
+                                <form class="col align-self-end mb-3 mw-100"
+                                      asp-controller="Comment" 
+                                      asp-action="DeleteComment" 
+                                      asp-route-commentId="@comment.Id"
+                                      asp-route-articleId="@Model.SelectedArticle.Id"
+                                      method="post">
+                                    <button class="btn btn-danger"
+                                            type="submit">
+                                        <h3>Удалить</h3>
+                                    </button>
+                                </form>
                             }
                         }
                     </div>

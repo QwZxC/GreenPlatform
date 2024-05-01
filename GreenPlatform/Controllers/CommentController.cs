@@ -31,6 +31,15 @@ public class CommentController : Controller
         return ReturnToArticle(viewModel.ArticleId);
     }
 
+    [HttpPost]
+    [Authorize]
+    [Route("{commentId}")]
+    public async Task<IActionResult> DeleteComment(Guid commentId, Guid articleId)
+    {
+        await _commentService.DeleteCommentAsync(commentId);
+        return ReturnToArticle(articleId);
+    }
+
     [NonAction]
     private IActionResult ReturnToArticle(Guid articleId)
     {
