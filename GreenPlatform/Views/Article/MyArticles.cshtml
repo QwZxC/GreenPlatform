@@ -32,11 +32,22 @@
                         <h4>@article.CreationDate.ToShortTimeString() @article.CreationDate.ToShortDateString()</h4>
                     </th>
                     <th>
-                        <a class="btn btn-primary" 
-                           asp-action="Edit" 
-                           asp-route-articleId="@article.Id">
-                           <h3>Изменить</h3>
-                        </a>
+                        <div class="container">
+                            <div class="row">
+                                <a class="col btn btn-primary mb-3"
+                                   asp-action="Edit"
+                                   asp-route-articleId="@article.Id">
+                                    <h3>Изменить</h3>
+                                </a>
+                                <form class="col" method="post">
+                                    <button type="submit" class="btn btn-danger mb-3"
+                                            asp-action="Delete"
+                                            asp-route-articleId="@article.Id">
+                                        <h3>Удалить</h3>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
                     </th>
                 </tr>
             }

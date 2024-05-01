@@ -31,6 +31,13 @@ public class ArticleService : IArticleService
         await _articleRepository.SaveAsync();
     }
 
+    public async Task DeleteByIdAsync(Guid articleId)
+    {
+        Article article = await _articleRepository.FindArticleByIdAsync(articleId);
+        _articleRepository.Delete(article);
+        await _articleRepository.SaveAsync();
+    }
+
     public async Task EditAsync(EditArticleViewModel viewModel)
     {
         Article article = await _articleRepository.FindArticleByIdAsync(viewModel.ArticleId);

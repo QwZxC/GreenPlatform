@@ -65,7 +65,7 @@ public class ArticleController : Controller
             return View();
         }
         await _articleService.CreateAsync(viewModel);
-        return RedirectToAction("Articles");
+        return RedirectToAction("MyArticles");
     }
 
     [Authorize]
@@ -88,6 +88,15 @@ public class ArticleController : Controller
             return View();
         }
         await _articleService.EditAsync(viewModel);
-        return RedirectToAction("Articles");
+        return RedirectToAction("MyArticles");
+    }
+
+    [HttpPost]
+    [Authorize]
+    [Route("{articleId}")]
+    public async Task<IActionResult> Delete(Guid articleId)
+    {
+        await _articleService.DeleteByIdAsync(articleId);
+        return RedirectToAction("MyArticles");
     }
 }
