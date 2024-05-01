@@ -90,7 +90,7 @@ public static class Program
 
         app.UseAuthorization();
         app.MapHub<CommentHub>("comment-hub");
-
+        
         app.MapControllerRoute(
             name: "default",
             pattern: "{controller=Account}/{action=Login}/{id?}");

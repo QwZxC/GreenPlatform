@@ -2,27 +2,35 @@
  @model ArticleListViewModel
  
  <div>
-    @{
-        <div>
-            <div class="d-flex justify-content-between align-items-center">
-                <h2>Статьи</h2>
-                <a class="btn btn-outline-success" asp-action="Create">
-                    Добавить
-                </a>
-            </div>
-            @{
-                foreach (var article in Model.Articles)
+     <div class="flex-column d-flex card justify-content-between align-items-center">
+         <h2>Статьи</h2>
+         <a class="btn btn-outline-success" asp-action="Create">
+             Добавить
+         </a>
+     </div>
+     <div class="card">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Название</th>
+                    <th>Автор</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var article in Model.Articles)
                 {
-                    <div>
-                        <a class="text-decoration-none"
-                           asp-action="Article"
-                           asp-route-articleId="@article.Id">
-                            <h3>@article.Title</h3>
-                        </a>
-                        <h4>@article.Owner.Login</h4>
-                    </div>
+                    <tr>
+                        <th>
+                            <a class="text-decoration-none"
+                               asp-action="Article"
+                               asp-route-articleId="@article.Id">
+                                <h3>@article.Title</h3>
+                            </a>
+                        </th>
+                        <th><h4>@article.Owner.Login</h4></th>
+                    </tr>
                 }
-            }
-        </div>
-     }
+            </tbody>
+        </table>
+     </div>
  </div>

@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace GreenPlatform.Controllers;
 
 [Route("articles")]
-[AllowAnonymous]
 public class ArticleController : Controller
 {
     private readonly IArticleService _articleService;
@@ -16,6 +15,7 @@ public class ArticleController : Controller
         _articleService = articleService;
     }
 
+    [AllowAnonymous]
     public async Task<IActionResult> Articles()
     {
         var viewModel = new ArticleListViewModel()
@@ -37,6 +37,7 @@ public class ArticleController : Controller
     }
 
     [Route("{articleId}")]
+    [AllowAnonymous]
     public async Task<IActionResult> Article(Guid articleId)
     {
         var viewModel = new SelectedArticleViewModel()

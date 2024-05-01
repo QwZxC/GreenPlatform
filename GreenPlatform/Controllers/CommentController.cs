@@ -1,5 +1,6 @@
 ﻿using Domain.Dtos;
 using Domain.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GreenPlatform.Controllers;
@@ -19,6 +20,7 @@ public class CommentController : Controller
     }
 
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> CreateComment(CreateCommentViewModel viewModel)
     {
         if (!ModelState.IsValid)
