@@ -9,10 +9,12 @@ namespace GreenPlatform.Controllers;
 public class ArticleController : Controller
 {
     private readonly IArticleService _articleService;
+    private readonly ICommentService _commentService;
 
-    public ArticleController(IArticleService articleService)
+    public ArticleController(IArticleService articleService, ICommentService commentService)
     {
         _articleService = articleService;
+        _commentService = commentService;
     }
 
     [AllowAnonymous]
@@ -42,7 +44,8 @@ public class ArticleController : Controller
     {
         var viewModel = new SelectedArticleViewModel()
         {
-            SelectedArticle = await _articleService.FindArticleByIdAsync(articleId)
+            SelectedArticle = await _articleService.FindArticleByIdAsync(articleId),
+            Comments = await _commentService.FindCommentsByArticleIdAsync(articleId)
         };
         return View(viewModel);
     }

@@ -26,7 +26,6 @@ public class ArticleRepository : BaseRepository<Article>, IArticleRepository
     {
         return await _context.Article
             .Include(article => article.Owner)
-            .Include(article => article.Comments)
             .FirstOrDefaultAsync(article => article.Id == id)
             ?? throw new NotFoundException("Статья не найдена");
     }

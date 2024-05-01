@@ -29,4 +29,9 @@ public class CommentService : ICommentService
         _commentRepository.AddEntity(comment);
         await _commentRepository.SaveAsync();
     }
+
+    public async Task<List<Comment>> FindCommentsByArticleIdAsync(Guid articleId)
+    {
+        return await _commentRepository.FindCommentsByArticleId(articleId);
+    }
 }

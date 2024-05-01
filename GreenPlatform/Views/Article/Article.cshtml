@@ -1,4 +1,6 @@
 ﻿ @using Domain.Dtos;
+ @using Domain.Services;
+ @inject IUserService userService
  @model SelectedArticleViewModel
 
 <div>
@@ -17,7 +19,7 @@
         await Html.RenderPartialAsync("..\\Comment\\_CreateComment.cshtml", vm);
     }
     @{
-        if (Model.SelectedArticle.Comments.Count == 0)
+        if (Model.Comments.Count == 0)
         {
             <label>Комментариев нет</label>
         }
@@ -25,12 +27,26 @@
         {
             foreach (var comment in Model.SelectedArticle.Comments)
             {
-                <div class="row mb-2 card d-flex align-items-start justify-content-start">
-                    <div class="column">
-                        <label>@comment.Creator.Login</label>
-                        <label>@comment.CreationDate.ToShortDateString() @comment.CreationDate.ToShortTimeString()</label>
+                <div class="container mb-2 card">
+                    <div class="row">
+                        <div class="col align-self-start">
+                            <label>@comment.Creator.Login</label>
+                            <label>@comment.CreationDate.ToShortDateString() @comment.CreationDate.ToShortTimeString()</label>
+                        </div>
+                        <div class="col-4">
+                            <br>@comment.Content
+                        </div>
+                        @{
+                            Guid userId = userService.GetAuthorizeUserId();
+                            if (comment.CreatorId == userId || Model.SelectedArticle.OwnerId == userId)
+                            {
+                                <button class="col align-self-end btn btn-danger mb-3 mw-100"
+                                        asp-route-articleId="@comment.Id">
+                                    <h3>Удалить</h3>
+                                </button>
+                            }
+                        }
                     </div>
-                    <label>@comment.Content</label>
                 </div>
             }
         }
