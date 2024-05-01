@@ -9,28 +9,25 @@
          </a>
      </div>
      <div class="card">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Название</th>
-                    <th>Автор</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var article in Model.Articles)
-                {
-                    <tr>
-                        <th>
-                            <a class="text-decoration-none"
+        @foreach (var article in Model.Articles)
+        {
+            <div class="row">
+                <div class="card mb-3" style="width: 25rem;">
+                    <div class="card-body">
+                        <h5>
+                            <a class="card-title link-success link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
                                asp-action="Article"
                                asp-route-articleId="@article.Id">
-                                <h3>@article.Title</h3>
+                                @article.Title
                             </a>
-                        </th>
-                        <th><h4>@article.Owner.Login</h4></th>
-                    </tr>
-                }
-            </tbody>
-        </table>
+                        </h5>
+                        <div class="card-subtitle">
+                            <h5 class="card-subtitle">Дата публикации: @article.CreationDate.ToShortDateString()</h5>
+                            <h5 class="card-subtitle">Время публикации: @article.CreationDate.ToShortTimeString()</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
      </div>
  </div>

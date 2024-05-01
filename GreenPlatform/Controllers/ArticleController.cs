@@ -67,4 +67,27 @@ public class ArticleController : Controller
         await _articleService.CreateAsync(viewModel);
         return RedirectToAction("Articles");
     }
+
+    [Authorize]
+    [HttpGet]
+    [Route("edit/{articleId}")]
+    public async Task<IActionResult> Edit(Guid articleId)
+    {
+        var viewModel = new EditArticleViewModel(
+            await _articleService.FindArticleByIdAsync(articleId));
+        return View(viewModel);
+    }
+
+    [HttpPost]
+    [Authorize]
+    [Route("edit/{articleId}")]
+    public async Task<IActionResult> Edit(EditArticleViewModel viewModel)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View();
+        }
+        await _articleService.EditAsync(viewModel);
+        return RedirectToAction("Articles");
+    }
 }

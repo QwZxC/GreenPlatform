@@ -20,11 +20,11 @@ public static class Program
 
         builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
         builder.Services.AddHttpContextAccessor();
-
+        
         var connectionString = builder.Configuration.GetConnectionString("Default");
 
         builder.Services.AddSignalR();
-        
+        builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         builder.Services.AddDbContext<GreenPlatformDbContext>(optinons =>
             optinons.UseNpgsql(connectionString));
 

@@ -7,31 +7,48 @@
     </div>
 </div>
 
-@{
-    if (Model.Articles.Count != 0)
-    {
-        foreach (var article in Model.Articles)
-        {
-            <div class="d-flex flex-column bd-highlight mb-3">
-                <div class="p-2 bd-highlight card">
-                    <a class="text-decoration-none"
-                       asp-action="Article"
-                       asp-route-articleId="@article.Id">
-                        <h3>@article.Title</h3>
-                    </a>
-                    <h4>@article.CreationDate.ToShortDateString() @article.CreationDate.ToShortTimeString()</h4>
-                </div>
-            </div>
-        }
-    }
-    else
-    {
-        <div class="d-flex align-items-center justify-content-center card">
-            <a class="text-decoration-none"
-               asp-action="Create">
-                <h3>У вас ещё нет статей. Хотите создать?</h3>
-            </a>
-        </div>
-    }
+@if (Model.Articles.Count != 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="text-center"><h2>Название</h2></th>
+                <th class="text-center"><h2>Время и дата публикации публикации</h2></th>
+                <th><h2>Действия</h2></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var article in Model.Articles)
+            {
+                <tr>
+                    <th class="text-center">
+                        <a class="text-success"
+                           asp-action="Article"
+                           asp-route-articleId="@article.Id">
+                            <h3>@article.Title</h3>
+                        </a>
+                    </th>
+                    <th class="text-center">
+                        <h4>@article.CreationDate.ToShortTimeString() @article.CreationDate.ToShortDateString()</h4>
+                    </th>
+                    <th>
+                        <a class="btn btn-primary" 
+                           asp-action="Edit" 
+                           asp-route-articleId="@article.Id">
+                           <h3>Изменить</h3>
+                        </a>
+                    </th>
+                </tr>
+            }
+        </tbody>
+    </table>
 }
-
+else
+{
+    <div class="d-flex align-items-center justify-content-center card">
+        <a class="text-decoration-none"
+           asp-action="Create">
+            <h3>У вас ещё нет статей. Хотите создать?</h3>
+        </a>
+    </div>
+}

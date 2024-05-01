@@ -1,0 +1,32 @@
+﻿@using Domain.Dtos;
+@model EditArticleViewModel
+
+<div class="row d-flex align-items-center justify-content-center">
+    <div class="col-md-3 card p-3">
+        <h2 class="text-center text-success">Измените свою статью</h2>
+        <form asp-action="Edit" method="post">
+            <div asp-validation-summary="ModelOnly"></div>
+            <input asp-for="ArticleId" value="@Model.ArticleId" hidden />
+            <div class="mb-1">
+                <label asp-for="Title"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+
+            <div class="mb-1">
+                <label asp-for="Content"></label>
+                <input asp-for="Content" class="form-control" />
+                <span asp-validation-for="Content" class="text-danger"></span>
+            </div>
+
+            <div class="row">
+                <div class="col-8">
+                    <a asp-action="MyArticles" class="btn btn-danger">Отмена</a>
+                </div>
+                <div class="col-4">
+                    <input type="submit" value="Изменить" class="btn btn- btn-sm float-end" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
