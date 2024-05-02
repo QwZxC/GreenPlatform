@@ -1,4 +1,5 @@
-﻿ @using Domain.Dtos;
+﻿@using Common.Exceptions
+ @using Domain.Dtos;
  @using Domain.Services;
  @inject IUserService userService
  @model SelectedArticleViewModel
@@ -37,20 +38,27 @@
                             <br>@comment.Content
                         </div>
                         @{
-                            Guid userId = userService.GetAuthorizeUserId();
-                            if (comment.CreatorId == userId || Model.SelectedArticle.OwnerId == userId)
+                            try
                             {
-                                <form class="col align-self-end mb-3 mw-100"
-                                      asp-controller="Comment" 
-                                      asp-action="DeleteComment" 
-                                      asp-route-commentId="@comment.Id"
-                                      asp-route-articleId="@Model.SelectedArticle.Id"
-                                      method="post">
-                                    <button class="btn btn-danger"
-                                            type="submit">
-                                        <h3>Удалить</h3>
-                                    </button>
-                                </form>
+                                Guid userId = userService.GetAuthorizeUserId();
+                                if (comment.CreatorId == userId || Model.SelectedArticle.OwnerId == userId)
+                                {
+                                    <form class="col align-self-end mb-3 mw-100"
+                                          asp-controller="Comment"
+                                          asp-action="DeleteComment"
+                                          asp-route-commentId="@comment.Id"
+                                          asp-route-articleId="@Model.SelectedArticle.Id"
+                                          method="post">
+                                        <button class="btn btn-danger"
+                                                type="submit">
+                                            <h3>Удалить</h3>
+                                        </button>
+                                    </form>
+                                }
+                            }
+                            catch (InvalidOperationException ex)
+                            {
+                                
                             }
                         }
                     </div>

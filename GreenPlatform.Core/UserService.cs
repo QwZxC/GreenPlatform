@@ -2,6 +2,7 @@
 using Domain.Repositories;
 using Microsoft.AspNetCore.Http;
 using Domain.Services;
+using Common.Exceptions;
 
 namespace Core;
 
@@ -90,8 +91,9 @@ public class UserService : IUserService
 
     public Guid GetAuthorizeUserId()
     {
-        return Guid
-            .Parse(_contextAccessor
-            .HttpContext.User.Claims.First(claim => claim.Type == "UserId").Value);
+        string userId = _contextAccessor
+            .HttpContext?.User.Claims.First(claim => claim.Type == "UserId").Value ??
+            throw new UnauthorizedException("Пользователь не авторизован");
+        return Guid.Parse(userId);
     }
 }

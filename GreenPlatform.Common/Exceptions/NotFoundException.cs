@@ -1,9 +1,12 @@
-﻿namespace Common.Exceptions;
+﻿using Microsoft.AspNetCore.Http;
 
-public class NotFoundException : Exception
+namespace Common.Exceptions;
+
+public class NotFoundException : BadHttpRequestException
 {
     public NotFoundException(string message) 
-        : base(message) 
-    { 
+        : base(message, 404) 
+    {
+
     }
 }

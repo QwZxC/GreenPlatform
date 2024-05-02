@@ -77,9 +77,14 @@ public static class Program
 
         if (!app.Environment.IsDevelopment())
         {
-            app.UseExceptionHandler("/Home/Error");
+            app.UseDeveloperExceptionPage();
             app.UseHsts();
         }
+        else
+        {
+            app.UseExceptionHandler("/Error");
+        }
+
         app.UseAuthentication();
         app.UseAuthorization();
         app.UseSerilogRequestLogging();
@@ -87,7 +92,7 @@ public static class Program
         app.UseStaticFiles();
         
         app.UseRouting();
-
+        app.UseStatusCodePagesWithReExecute("/Error/{0}");
         app.UseAuthorization();
         app.MapHub<CommentHub>("comment-hub");
         
