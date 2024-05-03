@@ -44,4 +44,9 @@ public class CommentService : ICommentService
     {
         return await _commentRepository.FindCommentsByArticleId(articleId);
     }
+
+    public async Task<Comment> FindCommentByIdAsync(Guid commentId)
+    {
+        return await _commentRepository.FindByIdAsync(commentId);
+    }
 }

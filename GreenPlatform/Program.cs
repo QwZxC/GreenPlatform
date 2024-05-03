@@ -23,6 +23,14 @@ public static class Program
         
         var connectionString = builder.Configuration.GetConnectionString("Default");
 
+        var logger = new LoggerConfiguration()
+            .ReadFrom.Configuration(builder.Configuration)
+            .Enrich.FromLogContext()
+            .CreateLogger();
+
+        builder.Logging.ClearProviders();
+        builder.Logging.AddSerilog(logger);
+
         builder.Services.AddSignalR();
         builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         builder.Services.AddDbContext<GreenPlatformDbContext>(optinons =>
@@ -99,7 +107,7 @@ public static class Program
         app.MapControllerRoute(
             name: "default",
             pattern: "{controller=Account}/{action=Login}/{id?}");
-
+        app.UseSerilogRequestLogging();
         app.Run();
     }
 }

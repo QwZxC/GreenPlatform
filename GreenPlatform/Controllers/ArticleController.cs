@@ -10,11 +10,17 @@ public class ArticleController : Controller
 {
     private readonly IArticleService _articleService;
     private readonly ICommentService _commentService;
+    private readonly ILogger<ArticleController> _logger;
 
-    public ArticleController(IArticleService articleService, ICommentService commentService)
+    public ArticleController(
+        IArticleService articleService,
+        ICommentService commentService,
+        ILogger<ArticleController> logger
+        )
     {
         _articleService = articleService;
         _commentService = commentService;
+        _logger = logger;
     }
 
     [AllowAnonymous]
@@ -31,6 +37,7 @@ public class ArticleController : Controller
     [Authorize]
     public async Task<IActionResult> MyArticles()
     {
+        Log("Получение списка статей");
         var viewModel = new ArticleListViewModel()
         {
             Articles = await _articleService.FindAllArticlesForUserAsync()
@@ -42,6 +49,7 @@ public class ArticleController : Controller
     [AllowAnonymous]
     public async Task<IActionResult> Article(Guid articleId)
     {
+        Log($"Получение подробного просмотра статьи {articleId}");
         var viewModel = new SelectedArticleViewModel()
         {
             SelectedArticle = await _articleService.FindArticleByIdAsync(articleId),
@@ -68,6 +76,7 @@ public class ArticleController : Controller
             return View();
         }
         await _articleService.CreateAsync(viewModel);
+        Log($"Создана статья {viewModel.Title}");
         return RedirectToAction("MyArticles");
     }
 
@@ -90,6 +99,7 @@ public class ArticleController : Controller
         {
             return View();
         }
+        Log($"Изменена статья{viewModel.ArticleId}");
         await _articleService.EditAsync(viewModel);
         return RedirectToAction("MyArticles");
     }
@@ -100,6 +110,16 @@ public class ArticleController : Controller
     public async Task<IActionResult> Delete(Guid articleId)
     {
         await _articleService.DeleteByIdAsync(articleId);
+        Log($"Удалена статья {articleId}");
         return RedirectToAction("MyArticles");
+    }
+
+    [NonAction]
+    private void Log(string action)
+    {
+        _logger.LogInformation("{Action}\n" +
+                "\t\tВремя: {Time}\n" +
+                "\t\tДата: {Date}\n",
+            action, DateTime.Now.ToShortTimeString(), DateTime.Now.ToShortDateString());
     }
 }

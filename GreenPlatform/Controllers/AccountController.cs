@@ -9,10 +9,12 @@ namespace GreenPlatform.Controllers;
 [AllowAnonymous]
 public class AccountController : Controller
 {
+    private readonly ILogger<AccountController> _logger;
     private readonly IUserService _userService;
 
-    public AccountController(IUserService userService)
+    public AccountController(IUserService userService, ILogger<AccountController> logger)
     {
+        _logger = logger;
         _userService = userService;
     }
 
@@ -34,10 +36,12 @@ public class AccountController : Controller
         if (user == null)
         {
             ModelState.AddModelError("", "Неверный логин или пароль");
+            Log("Неудачная попытка входа в аккаунт", model.Login);
             return View(model);
         }
 
         await _userService.LoginAsync(user);
+        Log("Вход в аккаунт", model.Login);
         return RedirectToAction("Articles", "Article");
     }
 
@@ -53,13 +57,12 @@ public class AccountController : Controller
         {
             return View();
         }
-
         if (await _userService.FindUserByLoginAsync(model.Login) != null)
         {
             ModelState.AddModelError("", "Пользователь с таким логином уже зарегистрирован");
             return View(model);
         }
-
+        Log("Регистрация", model.Login);
         await _userService.LoginAsync(await _userService.CreateUserAsync(model.Login, model.Password));
         return RedirectToAction("Articles", "Article");
     }
@@ -67,5 +70,14 @@ public class AccountController : Controller
     public IActionResult Logout()
     {
         return View();
+    }
+
+    [NonAction]
+    private void Log(string action, string login)
+    {
+        _logger.LogInformation("{Action} {Login}\n" + 
+            "\t\tВремя: {Time}\n" +
+            "\t\tДата: {Date}\n",
+            action, login, DateTime.Now.ToShortTimeString(), DateTime.Now.ToShortDateString());
     }
 }
