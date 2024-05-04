@@ -1,0 +1,48 @@
+version: '3.4'
+
+services:
+  greenplatform:
+    image: yantar/greenplatform
+    build:
+      context: .
+      dockerfile: GreenPlatform/Dockerfile
+    networks:
+      - greenplatform-network
+  
+  greenplatform.db:
+    image: postgres:latest
+    container_name: greenplatformDb
+    environment:
+      - POSTGRES_DB=greenplatform
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./.containers/db:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    networks:
+      - greenplatform-network
+ 
+  greenplatform.seq:
+    image: datalust/seq:latest
+    container_name: greenplatformSeq
+    environment:
+      - ACCEPT_EULA=Y
+    ports:
+      - 5341:5341
+      - 9091:80
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: secret
+      PGADMIN_LISTEN_PORT: 80
+    ports:
+      - "8000:80"
+    networks:
+      - greenplatform-network
+
+networks:
+  greenplatform-network:
+    driver: bridge
