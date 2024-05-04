@@ -2,32 +2,30 @@
  @model ArticleListViewModel
  
  <div>
-     <div class="flex-column d-flex card justify-content-between align-items-center">
+    <div class="flex-column d-flex card justify-content-between align-items-center mb-3">
          <h2>Статьи</h2>
-         <a class="btn btn-outline-success" asp-action="Create">
+         <a class="btn btn-outline-success mb-3" asp-action="Create">
              Добавить
          </a>
      </div>
-     <div class="card">
-        @foreach (var article in Model.Articles)
-        {
-            <div class="row">
-                <div class="card mb-3" style="width: 25rem;">
-                    <div class="card-body">
-                        <h5>
-                            <a class="card-title link-success link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                               asp-action="Article"
-                               asp-route-articleId="@article.Id">
-                                @article.Title
-                            </a>
-                        </h5>
-                        <div class="card-subtitle">
-                            <h5 class="card-subtitle">Дата публикации: @article.CreationDate.ToShortDateString()</h5>
-                            <h5 class="card-subtitle">Время публикации: @article.CreationDate.ToShortTimeString()</h5>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        }
+    <div class="d-flex justify-content-center flex-wrap">
+         @foreach (var article in Model.Articles)
+         {
+             <div class="card m-3">
+                 <div class="card-body">
+                     <h5 class="card-title">@article.Title</h5>
+                     <p class="card-text"></p>
+                     <div class="card-subtitle">
+                         <h5 class="card-subtitle">Дата публикации: @article.CreationDate.ToShortDateString()</h5>
+                         <h5 class="card-subtitle">Время публикации: @article.CreationDate.ToShortTimeString()</h5>
+                     </div>
+                     <a class="btn btn-success mt-3"
+                     asp-action="Article"
+                     asp-route-articleId="@article.Id">
+                     Читать
+                     </a>
+                 </div>
+             </div>
+         }
      </div>
  </div>

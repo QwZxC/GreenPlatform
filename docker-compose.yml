@@ -25,12 +25,13 @@ services:
  
   greenplatform.seq:
     image: datalust/seq:latest
-    container_name: greenplatformSeq
+    container_name: greenplatform-seq
     environment:
       - ACCEPT_EULA=Y
     ports:
       - 5341:5341
       - 9091:80
+
   pgadmin:
     image: dpage/pgadmin4
     restart: always

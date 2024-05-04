@@ -18,18 +18,13 @@ public static class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
+
+        builder.Host.UseSerilog((context, loggerConfig) =>
+            loggerConfig.ReadFrom.Configuration(context.Configuration));
         builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
         builder.Services.AddHttpContextAccessor();
         
         var connectionString = builder.Configuration.GetConnectionString("Default");
-
-        var logger = new LoggerConfiguration()
-            .ReadFrom.Configuration(builder.Configuration)
-            .Enrich.FromLogContext()
-            .CreateLogger();
-
-        builder.Logging.ClearProviders();
-        builder.Logging.AddSerilog(logger);
 
         builder.Services.AddSignalR();
         builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
