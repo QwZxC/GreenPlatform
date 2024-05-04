@@ -11,4 +11,5 @@ public interface IUserService
     Guid GetAuthorizeUserId();
     Task SaveAsync();
     Task LoginAsync(GreenPlatformUser user);
+    Task LogOutAsync();
 }

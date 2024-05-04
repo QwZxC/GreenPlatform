@@ -3,6 +3,8 @@ using Domain.Repositories;
 using Microsoft.AspNetCore.Http;
 using Domain.Services;
 using Common.Exceptions;
+using Microsoft.Extensions.Logging;
+using System;
 
 namespace Core;
 
@@ -13,19 +15,22 @@ public class UserService : IUserService
     private readonly IPasswordHasher _passwordHasher;
     private readonly ITokenService _tokenService;
     private readonly IHttpContextAccessor _contextAccessor;
+    private readonly ILogger<UserService> _logger;
 
     public UserService(
         IUserRepository userRepository,
         IRoleService roleService,
         IPasswordHasher passwordHasher,
         ITokenService tokenService,
-        IHttpContextAccessor contextAccessor)
+        IHttpContextAccessor contextAccessor,
+        ILogger<UserService> logger)
     {
         _userRepository = userRepository;
         _roleService = roleService;
         _passwordHasher = passwordHasher;
         _tokenService = tokenService;
         _contextAccessor = contextAccessor;
+        _logger = logger;
     }
 
     public async Task<GreenPlatformUser> CreateUserAsync(string login, string password)
@@ -91,9 +96,21 @@ public class UserService : IUserService
 
     public Guid GetAuthorizeUserId()
     {
-        string userId = _contextAccessor
-            .HttpContext?.User.Claims.First(claim => claim.Type == "UserId").Value ??
-            throw new UnauthorizedException("Пользователь не авторизован");
-        return Guid.Parse(userId);
+        var claim = _contextAccessor
+            .HttpContext?.User.Claims.FirstOrDefault(claim => claim.Type == "UserId");
+        Guid userId = Guid.Parse(claim?.Value ?? Guid.Empty.ToString());
+        return userId;
+    }
+
+    public async Task LogOutAsync()
+    {
+        GreenPlatformUser user = await _userRepository
+            .FindByIdAsync(GetAuthorizeUserId());
+        user.AccessToken = string.Empty;
+        _contextAccessor.HttpContext?.Response.Cookies.Delete("Authorization");
+        await _userRepository.SaveAsync();
+        _logger.LogInformation("{@User} вышел из аккаунта" +
+            "\t\tВремя: {Time}\n" +
+            "\t\tДата: {Date}\n", user, DateTime.Now.ToShortTimeString(), DateTime.Now.ToShortDateString());
     }
 }

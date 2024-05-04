@@ -14,15 +14,14 @@
              <div class="card m-3">
                  <div class="card-body">
                      <h5 class="card-title">@article.Title</h5>
-                     <p class="card-text"></p>
+                     <p class="card-text">@article.Content</p>
                      <div class="card-subtitle">
-                         <h5 class="card-subtitle">Дата публикации: @article.CreationDate.ToShortDateString()</h5>
-                         <h5 class="card-subtitle">Время публикации: @article.CreationDate.ToShortTimeString()</h5>
+                        <h6 class="card-subtitle">@article.CreationDate.ToShortDateString() @article.CreationDate.ToShortTimeString()</h6>
                      </div>
                      <a class="btn btn-success mt-3"
-                     asp-action="Article"
-                     asp-route-articleId="@article.Id">
-                     Читать
+                        asp-action="Article"
+                        asp-route-articleId="@article.Id">
+                        Читать
                      </a>
                  </div>
              </div>

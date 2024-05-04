@@ -67,13 +67,15 @@ public class AccountController : Controller
         return RedirectToAction("Articles", "Article");
     }
 
-    public IActionResult Logout()
+    public async Task<IActionResult> Logout()
     {
-        return View();
+        Log("Выход из аккаунта");
+        await _userService.LogOutAsync();
+        return RedirectToAction("Login");
     }
 
     [NonAction]
-    private void Log(string action, string login)
+    private void Log(string action, string login = "")
     {
         _logger.LogInformation("{Action} {Login}\n" + 
             "\t\tВремя: {Time}\n" +

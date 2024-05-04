@@ -31,6 +31,8 @@ services:
     ports:
       - 5341:5341
       - 9091:80
+    networks:
+      - greenplatform-network
 
   pgadmin:
     image: dpage/pgadmin4
