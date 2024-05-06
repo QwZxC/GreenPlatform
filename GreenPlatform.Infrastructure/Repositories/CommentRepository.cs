@@ -11,13 +11,6 @@ public class CommentRepository : BaseRepository<Comment>, ICommentRepository
     {
     }
 
-    public async override Task<List<Comment>> FindAllAsync()
-    {
-        return await _context.
-            Comment.Include(comment => comment.Creator)
-            .ToListAsync();
-    }
-
     public async Task<List<Comment>> FindCommentsByArticleId(Guid articleId)
     {
         return await _context
