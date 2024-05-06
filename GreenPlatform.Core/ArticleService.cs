@@ -33,7 +33,7 @@ public class ArticleService : IArticleService
 
     public async Task DeleteByIdAsync(Guid articleId)
     {
-        Article article = await _articleRepository.FindArticleByIdAsync(articleId);
+        Article article = await _articleRepository.FindByIdAsync(articleId);
         _articleRepository.Delete(article);
         await _articleRepository.SaveAsync();
     }
