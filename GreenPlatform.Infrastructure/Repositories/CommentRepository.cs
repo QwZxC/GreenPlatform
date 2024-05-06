@@ -5,12 +5,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
 
+/// <summary>
+/// Реализация ICommentRepository
+/// Так же реализует в себе IBaseRepository,
+/// путём наследования от BaseRepository
+/// </summary>
 public class CommentRepository : BaseRepository<Comment>, ICommentRepository
 {
     public CommentRepository(GreenPlatformDbContext context) : base(context)
     {
     }
 
+    
     public async Task<List<Comment>> FindCommentsByArticleId(Guid articleId)
     {
         return await _context
@@ -20,6 +26,13 @@ public class CommentRepository : BaseRepository<Comment>, ICommentRepository
             .ToListAsync();
     }
 
+    /// <summary>
+    /// В случае не нахождения подходящего элемента выкидывает исключение
+    /// </summary>
+    /// <param name="articleId"></param>
+    /// <param name="userId"></param>
+    /// <returns></returns>
+    /// <exception cref="NotFoundException"></exception>
     public async Task<Comment> FindLastUserCommentForArticleAsync(Guid articleId, Guid userId)
     {
         return await _context

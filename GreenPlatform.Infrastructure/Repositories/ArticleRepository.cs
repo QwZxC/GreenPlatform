@@ -5,6 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
 
+/// <summary>
+/// Реализация IArticleRepository.
+/// Так же реализует в себе IBaseRepository,
+/// путём наследования от BaseRepository
+/// </summary>
 public class ArticleRepository : BaseRepository<Article>, IArticleRepository
 {
     public ArticleRepository(GreenPlatformDbContext context) : base(context)
@@ -17,12 +22,26 @@ public class ArticleRepository : BaseRepository<Article>, IArticleRepository
             .ToListAsync();
     }
 
+    /// <summary>
+    /// Переопределённый метод.
+    /// Осуществляет поиск всех статей,
+    /// а так же включает в себя информацию о владельце статьи
+    /// </summary>
+    /// <returns></returns>
     public async override Task<List<Article>> FindAllAsync()
     {
         return await _context.Article.Include(article => article.Owner).ToListAsync();
     }
 
-    public async Task<Article> FindArticleByIdAsync(Guid id)
+    /// <summary>
+    /// Переопределённый метод,
+    /// Осуществляет поиск статьи по id,
+    /// а так же включает в себя информацию о владельце статьи
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    /// <exception cref="NotFoundException"></exception>
+    public override async Task<Article> FindByIdAsync(Guid id)
     {
         return await _context.Article
             .Include(article => article.Owner)

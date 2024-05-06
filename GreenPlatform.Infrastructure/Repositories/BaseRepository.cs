@@ -5,6 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
 
+/// <summary>
+/// Реализация базового репозитория
+/// </summary>
+/// <typeparam name="TEntity"></typeparam>
 public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : BaseEntity
 {
     protected readonly GreenPlatformDbContext _context;
@@ -28,8 +32,14 @@ public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where T
     {
         return await _context.Set<TEntity>().ToListAsync();
     }
-
-    public async Task<TEntity> FindByIdAsync(Guid id)
+    
+    /// <summary>
+    /// В случае не нахождения подходящего элемента выкидывает исключение
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    /// <exception cref="NotFoundException"></exception>
+    public virtual async Task<TEntity> FindByIdAsync(Guid id)
     {
         return await _context
             .Set<TEntity>()

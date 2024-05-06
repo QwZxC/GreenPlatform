@@ -40,7 +40,7 @@ public class ArticleService : IArticleService
 
     public async Task EditAsync(EditArticleViewModel viewModel)
     {
-        Article article = await _articleRepository.FindArticleByIdAsync(viewModel.ArticleId);
+        Article article = await _articleRepository.FindByIdAsync(viewModel.ArticleId);
         article.Title = viewModel.Title;
         article.Content = viewModel.Content;
         await _articleRepository.SaveAsync();
@@ -59,6 +59,6 @@ public class ArticleService : IArticleService
 
     public async Task<Article> FindArticleByIdAsync(Guid id)
     {
-        return await _articleRepository.FindArticleByIdAsync(id);
+        return await _articleRepository.FindByIdAsync(id);
     }
 }
