@@ -1,17 +1,30 @@
 ﻿@using Domain.Dtos;
+@using Domain.Services
 @model CreateCommentViewModel
+@inject IUserService _userService;
 
-<form asp-controller="Comment" asp-action="CreateComment" method="post">
-    <div class="mb-3">
-        <div class="input-group">
-            <div class="form-floating">
-                <input asp-for="Content" type="text" class="form-control" placeholder="Введите комментарий" />
-                <label asp-for="Content" class="form-label w-50">Комментарий</label>
-                <input asp-for="ArticleId" value="@Model.ArticleId" hidden/>
+@{
+    Guid userId = _userService.GetAuthorizeUserId();
+    if (userId == Guid.Empty)
+    {
+        <a asp-controller="Account" asp-action="Login">Войдите, чтобы оставить комментарий</a>
+    }
+    else
+    {
+        <div class="container">
+            <div class="mb-3">
+                <div class="input-group">
+                    <div class="form-floating">
+                        <input id="messageInput" asp-for="Content" type="text" class="form-control" placeholder="Введите комментарий" />
+                        <label asp-for="Content" class="form-label w-50">Комментарий</label>
+                        <input id="articleId" asp-for="ArticleId" value="@Model.ArticleId" hidden/>
+                        <input id="userId" value="@userId" hidden />
+                    </div>
+                </div>
+                <span class="text-danger" asp-validation-for="Content"></span>
             </div>
+            <div class="text-danger mb-2">@ViewBag.Error</div>
+            <input id="sendButton" type="submit" value="Отправить" class="btn btn-outline-success w-50 mb-3">
         </div>
-        <span class="text-danger" asp-validation-for="Content"></span>
-    </div>
-    <div class="text-danger mb-2">@ViewBag.Error</div>
-    <input type="submit" value="Отправить" class="btn btn-outline-success w-50 mb-3">
-</form>
+    }
+}

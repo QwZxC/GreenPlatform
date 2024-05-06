@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Common.Exceptions;
+using Domain.Entities;
 using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,6 +11,13 @@ public class CommentRepository : BaseRepository<Comment>, ICommentRepository
     {
     }
 
+    public async override Task<List<Comment>> FindAllAsync()
+    {
+        return await _context.
+            Comment.Include(comment => comment.Creator)
+            .ToListAsync();
+    }
+
     public async Task<List<Comment>> FindCommentsByArticleId(Guid articleId)
     {
         return await _context
@@ -17,5 +25,15 @@ public class CommentRepository : BaseRepository<Comment>, ICommentRepository
             .Include(comment => comment.Creator)
             .Where(comment => comment.ArticleId == articleId)
             .ToListAsync();
+    }
+
+    public async Task<Comment> FindLastUserCommentForArticleAsync(Guid articleId, Guid userId)
+    {
+        return await _context
+            .Comment.Include(comment => comment.Creator)
+            .OrderByDescending(comment => comment.CreationDate)
+            .FirstOrDefaultAsync(comment =>
+            comment.ArticleId == articleId && comment.CreatorId == userId)
+            ?? throw new NotFoundException("Не удалось найти комментарий");
     }
 }

@@ -1,8 +1,8 @@
 ﻿@using Common.Exceptions
- @using Domain.Dtos;
- @using Domain.Services;
- @inject IUserService userService
- @model SelectedArticleViewModel
+@using Domain.Dtos;
+@using Domain.Services;
+@inject IUserService userService
+@model SelectedArticleViewModel
 
 <div>
     <h1 class ="display-4">@Model.SelectedArticle.Title</h1>
@@ -19,44 +19,12 @@
         vm.ArticleId = Model.SelectedArticle.Id;
         await Html.RenderPartialAsync("..\\Comment\\_CreateComment.cshtml", vm);
     }
-    @{
-        if (Model.Comments.Count == 0)
-        {
-            <label>Комментариев нет</label>
-        }
-        else
-        {
-            foreach (var comment in Model.SelectedArticle.Comments)
-            {
-                <div class="container mb-2 card">
-                    <div class="row">
-                        <div class="col align-self-start">
-                            <label>@comment.Creator.Login</label>
-                            <label>@comment.CreationDate.ToShortDateString() @comment.CreationDate.ToShortTimeString()</label>
-                        </div>
-                        <div class="col-4">
-                            <br>@comment.Content
-                        </div>
-                        @{
-                            Guid userId = userService.GetAuthorizeUserId();
-                            if (comment.CreatorId == userId || Model.SelectedArticle.OwnerId == userId)
-                            {
-                                <form class="col align-self-end mb-3 mw-100"
-                                      asp-controller="Comment"
-                                      asp-action="DeleteComment"
-                                      asp-route-commentId="@comment.Id"
-                                      asp-route-articleId="@Model.SelectedArticle.Id"
-                                      method="post">
-                                    <button class="btn btn-danger"
-                                            type="submit">
-                                        <h3>Удалить</h3>
-                                    </button>
-                                </form>
-                            }
-                        }
-                    </div>
-                </div>
-            }
-        }
-    }
+    <div class="row p-1">
+        <div class="col-6">
+            <ul id="commentsList"></ul>
+        </div>
+    </div>
 </div>
+
+<script src="~/js/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/comment.js"></script>

@@ -9,4 +9,5 @@ public interface ICommentService
     Task DeleteCommentAsync(Guid commentId);
     Task<List<Comment>> FindCommentsByArticleIdAsync(Guid articleId);
     Task<Comment> FindCommentByIdAsync(Guid commentId);
+    Task<Comment> FindLastUserCommentForArticleAsync(CreateCommentViewModel comment);
 }

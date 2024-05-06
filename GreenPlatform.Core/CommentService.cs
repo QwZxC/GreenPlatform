@@ -49,4 +49,10 @@ public class CommentService : ICommentService
     {
         return await _commentRepository.FindByIdAsync(commentId);
     }
+
+    public async Task<Comment> FindLastUserCommentForArticleAsync(CreateCommentViewModel comment)
+    {
+        return await _commentRepository
+            .FindLastUserCommentForArticleAsync(comment.ArticleId, _userService.GetAuthorizeUserId());
+    }
 }
