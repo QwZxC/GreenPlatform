@@ -1,29 +1,29 @@
 ﻿@using Domain.Dtos;
 @model CreateArticleViewModel
 
-<div class="row d-flex align-items-center justify-content-center">
-    <div class="col-md-3 card p-3">
-        <h2 class="text-center text-success">Напишите свою статью</h2>
+<div class="card align-items justify-content-center">
+    <div class="row m-5 d-flex">
+        <h1 class="text-center text-success">Напишите свою статью</h1>
         <form asp-action="Create" method="post">
             <div asp-validation-summary="ModelOnly"></div>
             <div class="mb-1">
-                <label asp-for="Title"></label>
-                <input asp-for="Title" class="form-control" />
+                <h4><label asp-for="Title"></label></h4>
+                <textarea asp-for="Title" class="form-control text-wrap"> </textarea>
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
 
             <div class="mb-1">
-                <label asp-for="Content"></label>
-                <input asp-for="Content" class="form-control" />
+                <h4><label asp-for="Content"></label></h4>
+                <textarea asp-for="Content" class="form-control"> </textarea>
                 <span asp-validation-for="Content" class="text-danger"></span>
             </div>
 
-            <div class="row">
+            <div class="row m-2" j>
                 <div class="col-8">
                     <a asp-action="Articles" class="btn btn-danger">Отмена</a>
                 </div>
                 <div class="col-4">
-                    <input type="submit" value="Создать" class="btn btn-primary btn-sm float-end" />
+                    <input type="submit" value="Создать" class="btn btn-success btn-lg float-end" />
                 </div>
             </div>
         </form>
