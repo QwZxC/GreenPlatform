@@ -32,7 +32,7 @@
                         <h4>@article.CreationDate.ToLongDateString() в @article.CreationDate.ToShortTimeString()</h4>
                     </th>
                     <th>
-                        <div class="container">
+                        <div class="container" data-article-id="@article.Id">
                             <div class="row">
                                 <a class="col btn btn-orange m-3 btn-lg"
                                    asp-action="Edit"
@@ -40,32 +40,10 @@
                                     Изменить
                                 </a>
                                 <button id="delete-button" 
-                                        class="col btn btn-danger m-3 btn-lg">
+                                        class="col btn btn-danger m-3 btn-lg"
+                                        data-article="delete">
                                         Удалить
-                                    </button>
-                                <div class="my-modal my-modal--close col" id="close-modal">
-                                    <div class="modal-content my-modal__container">
-                                        <div class="modal-body">
-                                            <h3>Вы уверены, что хотите удалить статью?</h3>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <form asp-action="Delete"
-                                                  asp-route-articleId="@article.Id">
-                                                <button id="confirmDelete"
-                                                        class="btn btn-danger btn-lg"
-                                                        type="submit">
-                                                    Удалить
-                                                </button>
-                                            </form>
-                                            <button id="close" 
-                                                    type="button" 
-                                                    class="btn btn-secondary btn-lg"
-                                                    data-dismiss="modal">
-                                                    Отмена
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
+                                </button>
                             </div>
                         </div>
                     </th>
