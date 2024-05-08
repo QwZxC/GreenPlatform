@@ -21,31 +21,51 @@
             @foreach (var article in Model.Articles)
             {
                 <tr>
-                    <th class="text-center">
+                    <th class="text-center align-content-center">
                         <a class="text-success"
                            asp-action="Article"
                            asp-route-articleId="@article.Id">
                             <h3>@article.Title</h3>
                         </a>
                     </th>
-                    <th class="text-center">
-                        <h4>@article.CreationDate.ToShortTimeString() @article.CreationDate.ToShortDateString()</h4>
+                    <th class="text-center align-content-center">
+                        <h4>@article.CreationDate.ToLongDateString() в @article.CreationDate.ToShortTimeString()</h4>
                     </th>
                     <th>
                         <div class="container">
                             <div class="row">
-                                <a class="col btn btn-primary mb-3"
+                                <a class="col btn btn-orange m-3 btn-lg"
                                    asp-action="Edit"
                                    asp-route-articleId="@article.Id">
-                                    <h3>Изменить</h3>
+                                    Изменить
                                 </a>
-                                <form class="col" method="post">
-                                    <button type="submit" class="btn btn-danger mb-3"
-                                            asp-action="Delete"
-                                            asp-route-articleId="@article.Id">
-                                        <h3>Удалить</h3>
+                                <button id="delete-button" 
+                                        class="col btn btn-danger m-3 btn-lg">
+                                        Удалить
                                     </button>
-                                </form>
+                                <div class="my-modal my-modal--close col" id="close-modal">
+                                    <div class="modal-content my-modal__container">
+                                        <div class="modal-body">
+                                            <h3>Вы уверены, что хотите удалить статью?</h3>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <form asp-action="Delete"
+                                                  asp-route-articleId="@article.Id">
+                                                <button id="confirmDelete"
+                                                        class="btn btn-danger btn-lg"
+                                                        type="submit">
+                                                    Удалить
+                                                </button>
+                                            </form>
+                                            <button id="close" 
+                                                    type="button" 
+                                                    class="btn btn-secondary btn-lg"
+                                                    data-dismiss="modal">
+                                                    Отмена
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </th>
@@ -63,3 +83,4 @@ else
         </a>
     </div>
 }
+<script src="~/js/modal.js"></script>

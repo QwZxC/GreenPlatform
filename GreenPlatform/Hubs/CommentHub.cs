@@ -27,6 +27,6 @@ public sealed class CommentHub : Hub
         await _commentService.CreateCommentAsync(comment);
         await Clients
             .Group(comment.ArticleId.ToString())
-            .SendAsync("ReceiveMessage", await _commentService.FindLastUserCommentForArticleAsync(comment););
+            .SendAsync("ReceiveMessage", await _commentService.FindLastUserCommentForArticleAsync(comment));
     }
 }

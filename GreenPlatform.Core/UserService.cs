@@ -59,7 +59,7 @@ public class UserService : IUserService
     {
         GreenPlatformUser user = await _userRepository.FindByLoginAsync(login);
 
-        if (_passwordHasher.Verify(password, user.Password))
+        if (_passwordHasher.Verify(password, user?.Password))
         {
             return user;
         }

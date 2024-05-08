@@ -1,8 +1,6 @@
-using Core;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Infrastructure;
 using Serilog;
 using System.Text;
 using GreenPlatform.Hubs;
@@ -22,10 +20,9 @@ public static class Program
         builder.Services.AddHttpContextAccessor();        
         builder.Services.AddSignalR();
         builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-        
         await builder.Services.AddDatabaseAsync(builder
-            .Configuration
-            .GetConnectionString("Default"));
+        .Configuration
+        .GetConnectionString("Default"));
         builder.Services.AddServices();
         builder.Services.AddRepositories();
 

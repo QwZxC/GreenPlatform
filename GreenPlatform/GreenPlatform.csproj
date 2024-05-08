@@ -40,4 +40,8 @@
     <Folder Include="Logs\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\js\delete.js" />
+  </ItemGroup>
+
 </Project>

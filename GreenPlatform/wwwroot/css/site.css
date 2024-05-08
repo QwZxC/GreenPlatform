@@ -17,6 +17,34 @@ html {
   min-height: 100%;
 }
 
+.material-table {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    margin-bottom: 24pt;
+}
+
+.eco-table {
+    background-color: transparent;
+    border-collapse: collapse;
+    border-spacing: 0;
+    box-sizing: border-box;
+    display: table;
+    text-indent: initial;
+    unicode-bidi: isolate;
+    border-color: gray;
+}
+
+.btn-orange {
+    background: orange;
+    color: whitesmoke;
+}
+
+.btn-orange:hover {
+    background: #eb9800;
+    color: whitesmoke;
+}
+
 body {
   margin-bottom: 60px;
 }
