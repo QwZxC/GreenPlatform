@@ -24,6 +24,10 @@ public sealed class CommentHub : Hub
     [Authorize]
     public async Task SendComment(CreateCommentViewModel comment)
     {
+        if (string.IsNullOrWhiteSpace(comment.Content))
+        {
+            return;
+        }
         await _commentService.CreateCommentAsync(comment);
         await Clients
             .Group(comment.ArticleId.ToString())

@@ -6,16 +6,28 @@ document.getElementById("sendButton").disabled = true;
 
 connection.on("JoinGroup", function (comments) {
     for (let i = 0; i < comments.length; i++) {
-        var li = document.createElement("li");
-        document.getElementById("commentsList").appendChild(li);
-        li.textContent = `${comments[i].creator.login} ${comments[i].content}`;
+        var div = document.createElement("div");
+        div.setAttribute('class', 'd-flex flex-column bd-highlight mb-3')
+        document.getElementById("commentsList").appendChild(div);
+        div.innerHTML = `
+            <div class="p-2 bd-highlight">
+                <h3>${comments[i].creator.login}</h3>
+                <h4>${comments[i].content}</h4>
+            </div>
+        `;
     }
 });
 
 connection.on("ReceiveMessage", function (commentFromDb) {
-    var li = document.createElement("li");
-    document.getElementById("commentsList").appendChild(li);
-    li.textContent = `${commentFromDb.creator.login} ${commentFromDb.content}`;
+    var div = document.createElement("div");
+    div.setAttribute('class', 'd-flex flex-column bd-highlight mb-3')
+    document.getElementById("commentsList").appendChild(div);
+    div.innerHTML = `
+            <div class="p-2 bd-highlight">
+                <h3>${commentFromDb.creator.login}</h3>
+                <h4>${commentFromDb.content}</h4>
+            </div>
+        `
 });
 
 connection.start().then(function () {
