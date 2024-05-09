@@ -6,7 +6,6 @@ using Domain.Services;
 
 namespace GreenPlatform.Controllers;
 
-[AllowAnonymous]
 public class AccountController : Controller
 {
     private readonly ILogger<AccountController> _logger;
@@ -18,12 +17,14 @@ public class AccountController : Controller
         _userService = userService;
     }
 
+    [AllowAnonymous]
     public IActionResult Login()
     {
         return View();
     }
 
     [HttpPost]
+    [AllowAnonymous]
     public async Task<IActionResult> Login(LoginViewModel model)
     {
         if (!ModelState.IsValid)
@@ -45,12 +46,14 @@ public class AccountController : Controller
         return RedirectToAction("Articles", "Article");
     }
 
+    [AllowAnonymous]
     public IActionResult Register()
     {
         return View();
     }
 
     [HttpPost]
+    [AllowAnonymous]
     public async Task<IActionResult> Register(RegisterViewModel model)
     {
         if (!ModelState.IsValid)
@@ -67,6 +70,7 @@ public class AccountController : Controller
         return RedirectToAction("Articles", "Article");
     }
 
+    [AllowAnonymous]
     public async Task<IActionResult> Logout()
     {
         Log("Выход из аккаунта");
@@ -81,5 +85,11 @@ public class AccountController : Controller
             "\t\tВремя: {Time}\n" +
             "\t\tДата: {Date}\n",
             action, login, DateTime.Now.ToShortTimeString(), DateTime.Now.ToShortDateString());
+    }
+
+    [Authorize]
+    public async Task<ActionResult<Guid>> GetAuthorizedUserId()
+    {
+        return Ok(_userService.GetAuthorizeUserId());
     }
 }

@@ -16,7 +16,6 @@ public class CommentRepository : BaseRepository<Comment>, ICommentRepository
     {
     }
 
-    
     public async Task<List<Comment>> FindCommentsByArticleId(Guid articleId)
     {
         return await _context

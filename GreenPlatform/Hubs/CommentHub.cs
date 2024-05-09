@@ -1,4 +1,5 @@
 ﻿using Domain.Dtos;
+using Domain.Entities;
 using Domain.Services;
 using Infrastructure;
 using Microsoft.AspNetCore.Authorization;
@@ -17,8 +18,9 @@ public sealed class CommentHub : Hub
 
     public async Task JoinGroup(Guid articleId)
     {
+        List<Comment> comments = await _commentService.FindCommentsByArticleIdAsync(articleId);
         await Groups.AddToGroupAsync(Context.ConnectionId, articleId.ToString());
-        await Clients.Caller.SendAsync("JoinGroup", await _commentService.FindCommentsByArticleIdAsync(articleId));
+        await Clients.Caller.SendAsync("JoinGroup", comments);
     }
 
     [Authorize]
@@ -32,5 +34,14 @@ public sealed class CommentHub : Hub
         await Clients
             .Group(comment.ArticleId.ToString())
             .SendAsync("ReceiveMessage", await _commentService.FindLastUserCommentForArticleAsync(comment));
+    }
+
+    [Authorize]
+    public async Task DeleteComment(Guid commentGuid)
+    {
+        Comment comment = await _commentService.FindCommentByIdAsync(commentGuid);
+        await Clients
+            .Group(comment.ArticleId.ToString())
+            .SendAsync("DeleteComment", commentGuid);
     }
 }

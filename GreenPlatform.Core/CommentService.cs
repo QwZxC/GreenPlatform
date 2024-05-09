@@ -8,12 +8,14 @@ namespace Core;
 public class CommentService : ICommentService
 {
     private readonly ICommentRepository _commentRepository;
-    private readonly IUserService _userService; 
+    private readonly IArticleService _articleService;
+    private readonly IUserService _userService;
 
-    public CommentService(ICommentRepository commentRepository, IUserService userService)
+    public CommentService(ICommentRepository commentRepository, IUserService userService, IArticleService articleService)
     {
         _commentRepository = commentRepository;
         _userService = userService;
+        _articleService = articleService;
     }
 
     public async Task CreateCommentAsync(CreateCommentViewModel viewModel)
@@ -33,7 +35,10 @@ public class CommentService : ICommentService
     public async Task DeleteCommentAsync(Guid commentId)
     {
         Comment comment = await _commentRepository.FindByIdAsync(commentId);
-        if (comment.CreatorId == _userService.GetAuthorizeUserId())
+        Article article = await _articleService.FindArticleByIdAsync(comment.ArticleId);
+        Guid authorizeUserId = _userService.GetAuthorizeUserId();
+        if (comment.CreatorId == authorizeUserId || 
+             article.OwnerId == authorizeUserId)
         {
             _commentRepository.Delete(comment);
             await _commentRepository.SaveAsync();
