@@ -23,7 +23,11 @@
                     <a asp-action="Articles" class="btn btn-danger">Отмена</a>
                 </div>
                 <div class="col-4">
-                    <input type="submit" value="Создать" class="btn btn-success btn-lg float-end" />
+                    @if (!string.IsNullOrWhiteSpace(ViewData["Reffer"]?.ToString()))
+                    {
+                        <input asp-for="PreviousUrl" value="@ViewData["Reffer"].ToString()" hidden />
+                    }
+                    <button type="submit" class="btn btn-success btn-lg float-end">Создать</button>
                 </div>
             </div>
         </form>

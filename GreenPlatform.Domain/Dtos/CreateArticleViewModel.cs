@@ -12,4 +12,5 @@ public class CreateArticleViewModel
     [Required(ErrorMessage = "У статьи должно быть содержание")]
     [DisplayName("Содержание")]
     public string Content { get; set; }
+    public string PreviousUrl { get; set; }
 }

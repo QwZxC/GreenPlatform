@@ -63,6 +63,11 @@ public class ArticleController : Controller
     [Route("new")]
     public async Task<IActionResult> Create()
     {
+        var reffer = Request.Headers["Referer"].ToString();
+        if (reffer != null)
+        {
+            ViewData["Reffer"] = reffer;
+        }
         return View();
     }
 
@@ -77,7 +82,7 @@ public class ArticleController : Controller
         }
         await _articleService.CreateAsync(viewModel);
         Log($"Создана статья {viewModel.Title}");
-        return RedirectToAction("MyArticles");
+        return Redirect(viewModel.PreviousUrl);
     }
 
     [Authorize]
