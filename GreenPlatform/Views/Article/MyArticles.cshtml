@@ -7,58 +7,63 @@
     </div>
 </div>
 
-@if (Model.Articles.Count != 0)
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th class="text-center"><h2>Название</h2></th>
-                <th class="text-center"><h2>Время и дата публикации публикации</h2></th>
-                <th><h2>Действия</h2></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var article in Model.Articles)
-            {
+<div class="d-flex flex-column">
+    @if (Model.Articles.Count != 0)
+    {
+        <table class="table">
+            <thead>
                 <tr>
-                    <th class="text-center align-content-center">
-                        <a class="text-success"
-                           asp-action="Article"
-                           asp-route-articleId="@article.Id">
-                            <h3>@article.Title</h3>
-                        </a>
-                    </th>
-                    <th class="text-center align-content-center">
-                        <h4>@article.CreationDate.ToLongDateString() в @article.CreationDate.ToShortTimeString()</h4>
-                    </th>
-                    <th>
-                        <div class="container" data-article-id="@article.Id">
-                            <div class="row">
-                                <a class="col btn btn-orange m-3 btn-lg"
-                                   asp-action="Edit"
-                                   asp-route-articleId="@article.Id">
-                                    Изменить
-                                </a>
-                                <button id="delete-button" 
-                                        class="col btn btn-danger m-3 btn-lg"
-                                        data-article="delete">
-                                        Удалить
-                                </button>
-                            </div>
-                        </div>
-                    </th>
+                    <th class="text-center"><h2>Название</h2></th>
+                    <th class="text-center"><h2>Время и дата публикации публикации</h2></th>
+                    <th><h2>Действия</h2></th>
                 </tr>
-            }
-        </tbody>
-    </table>
-}
-else
-{
-    <div class="d-flex align-items-center justify-content-center card">
-        <a class="text-decoration-none"
-           asp-action="Create">
-            <h3>У вас ещё нет статей. Хотите создать?</h3>
+            </thead>
+            <tbody>
+                @foreach (var article in Model.Articles)
+                {
+                    <tr>
+                        <th class="text-center align-content-center">
+                            <a class="text-success"
+                               asp-action="Article"
+                               asp-route-articleId="@article.Id">
+                                <h3>@article.Title</h3>
+                            </a>
+                        </th>
+                        <th class="text-center align-content-center">
+                            <h4>@article.CreationDate.ToLongDateString() в @article.CreationDate.ToShortTimeString()</h4>
+                        </th>
+                        <th>
+                            <div class="container" data-article-id="@article.Id">
+                                <div class="row">
+                                    <a class="col btn btn-orange m-3 btn-lg"
+                                       asp-action="Edit"
+                                       asp-route-articleId="@article.Id">
+                                        Изменить
+                                    </a>
+                                    <button id="delete-button"
+                                            class="col btn btn-danger m-3 btn-lg"
+                                            data-article="delete">
+                                        Удалить
+                                    </button>
+                                </div>
+                            </div>
+                        </th>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <a class="btn btn-outline-success mb-3 justify-content-end" asp-action="Create">
+            <i class="fa fa-plus" aria-hidden="true"></i>
         </a>
-    </div>
-}
+    }
+    else
+    {
+        <div class="d-flex align-items-center justify-content-center card">
+            <a class="text-decoration-none"
+               asp-action="Create">
+                <h3>У вас ещё нет статей. Хотите создать?</h3>
+            </a>
+        </div>
+    }
+</div>
 <script src="~/js/modal.js"></script>

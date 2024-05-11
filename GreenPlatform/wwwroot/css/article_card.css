@@ -1,0 +1,8 @@
+﻿.article_card {
+    box-shadow: 0 2px 5px 0 rgba(0,0, 0, 0.06);
+    transition: all 0.3s;
+}
+
+.article_card:hover {
+    box-shadow: 0 14px 30px -15px rgba(0, 0, 0, 0.75);
+}

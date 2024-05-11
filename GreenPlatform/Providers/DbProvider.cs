@@ -1,5 +1,6 @@
 ﻿using Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using Domain.Entities;
 
 namespace GreenPlatform.Providers;
 
@@ -24,7 +25,7 @@ public static class DbProvider
             await dbContext.Database.MigrateAsync();
             if (!dbContext.Role.Any())
             {
-                dbContext.Role.Add(new Domain.Entities.Role()
+                dbContext.Role.Add(new Role()
                 {
                     Id = Guid.NewGuid(),
                     Name = "User"

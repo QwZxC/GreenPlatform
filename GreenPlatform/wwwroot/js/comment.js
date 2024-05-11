@@ -16,7 +16,7 @@ connection.on("JoinGroup", async function (comments) {
         document.getElementById("commentsList").appendChild(div);
         if (authorizedUserId == comments[i].creator.id || authorizedUserId == articleOwnerId) {
             div.innerHTML = `
-                <div id="${comments[i].id}" class="p-2 bd-highlight">
+                <div id="${comments[i].id}" class="p-2 card bd-highlight">
                     <div class=d-flex flex-row>
                         <h2 class="me-2">${comments[i].creator.login}</h2>
                         <label class="text-center align-content-center me-2">${formatDate(comments[i].creationDate)}</label>
@@ -40,7 +40,7 @@ connection.on("JoinGroup", async function (comments) {
         }
         else {
             div.innerHTML = `
-                <div id="${comments[i].id}" class="p-2 bd-highlight">
+                <div id="${comments[i].id}" class=" card p-2 bd-highlight">
                     <div class=d-flex flex-row>
                         <h2 class="me-2">${comments[i].creator.login}</h2>
                         <label class="text-center align-content-center me-2">${formatDate(comments[i].creationDate)}</label>
@@ -66,7 +66,7 @@ connection.on("ReceiveMessage", async function (commentFromDb) {
 
     if (authorizedUserId == commentFromDb.creator.id || authorizedUserId == articleOwnerId) {
         div.innerHTML = `
-                <div id="${commentFromDb.id}" class="p-2 bd-highlight">
+                <div id="${commentFromDb.id}" class="p-2 card bd-highlight">
                     <div class=d-flex flex-row>
                         <h2 class="me-2">${commentFromDb.creator.login}</h2>
                         <label class="text-center align-content-center me-2">${formatDate(commentFromDb.creationDate)}</label>
@@ -88,7 +88,7 @@ connection.on("ReceiveMessage", async function (commentFromDb) {
     }
     else {
         div.innerHTML = `
-                <div id="${commentFromDb.id}" class="p-2 bd-highlight">
+                <div id="${commentFromDb.id}" class="p-2 card bd-highlight">
                     <div class=d-flex flex-row>
                         <h2 class="me-2">${commentFromDb.creator.login}</h2>
                         <label class="text-center align-content-center me-2">${formatDate(commentFromDb.creationDate)}</label>

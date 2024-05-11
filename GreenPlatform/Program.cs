@@ -20,6 +20,7 @@ public static class Program
         builder.Services.AddHttpContextAccessor();        
         builder.Services.AddSignalR();
         builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+        builder.Services.AddHttpClient();
         await builder.Services.AddDatabaseAsync(builder
         .Configuration
         .GetConnectionString("Default"));

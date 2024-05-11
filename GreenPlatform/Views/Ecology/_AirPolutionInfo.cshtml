@@ -1,0 +1,25 @@
+﻿@using Domain.Dtos;
+@model AirPolutionDto;
+
+<div class="card m-3">
+    <table class="table material-table">
+        <thead>
+            <tr>
+                <td>SO<sub>2</sub></td>
+                <td>NO<sub>2</sub></td>
+                <td>PM<sub>10</sub></td>
+                <td>PM<sub>2.5</sub></td>
+                <td>O<sub>3</sub></td>
+                <td>CO</td>
+            </tr>
+        </thead>
+        <tbody>
+        <td>@Model.List.FirstOrDefault().Components["so2"]</td>
+        <td>@Model.List.FirstOrDefault().Components["no2"]</td>
+        <td>@Model.List.FirstOrDefault().Components["pm10"]</td>
+        <td>@Model.List.FirstOrDefault().Components["pm2_5"]</td>
+        <td>@Model.List.FirstOrDefault().Components["o3"]</td>
+        <td>@Model.List.FirstOrDefault().Components["co"]</td>
+        </tbody>
+    </table>
+</div>

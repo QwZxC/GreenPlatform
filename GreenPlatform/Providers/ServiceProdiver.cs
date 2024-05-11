@@ -1,5 +1,6 @@
 ﻿using Core;
 using Domain.Services;
+using GreenPlatform.Core;
 
 namespace GreenPlatform.Providers;
 
@@ -13,6 +14,8 @@ public static class ServiceProdiver
         services.AddScoped<IArticleService, ArticleService>();
         services.AddScoped<IRoleService, RoleService>();
         services.AddScoped<ICommentService, CommentService>();
+        services.AddScoped<IEcologyService, EcologyService>();
+        services.AddScoped<IGeocodingService, GeocodingService>();
         services.AddSingleton<IPasswordHasher, PasswordHasher>();
     }
 }
