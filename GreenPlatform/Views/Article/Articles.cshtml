@@ -26,7 +26,7 @@
                     {
                         <h5 class="card-title">@article.Title</h5>
                     }
-                    <p class="card-text">@article.Content</p>
+                    <p class="card-text">@article.Content.Substring(0,76)...</p>
                     <div class="card-subtitle">
                         <h6 class="card-subtitle">@article.CreationDate.ToLongDateString() в @article.CreationDate.ToShortTimeString()</h6>
                     </div>

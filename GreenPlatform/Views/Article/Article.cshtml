@@ -4,17 +4,19 @@
 @inject IUserService userService
 @model SelectedArticleViewModel
 
-<div>
+<div class="d-flex flex-column">
+    <div class="d-flex flex-row">
+        <h2>@Model.SelectedArticle.Owner.Login</h2>
+        <h4 class="align-content-end">•@Model.SelectedArticle.CreationDate.ToLongDateString()</h4>
+    </div>
     <input id="ownerId" value="@Model.SelectedArticle.Owner.Id" hidden />
-    <h1 class="display-4">@Model.SelectedArticle.Title</h1>
-    <h2 class="display-5">Автор: @Model.SelectedArticle.Owner.Login</h2>
-    <h2 class="display-6">Дата публикации: @Model.SelectedArticle.CreationDate.ToShortDateString()</h2>
+    <h1 class="text-center">@Model.SelectedArticle.Title</h1>
 </div>
 
-<div class="display-5 w-100">
-    <label class="text-break">
-        @Model.SelectedArticle.Content
-    </label>
+<div class="mb-3">
+    <lab class="text-wrap text-xxl-start" style="white-space: pre-line">
+        @Html.Raw(Model.SelectedArticle.Content.Replace(Environment.NewLine, "<br/>"));
+    </lab>
 </div>
 
 <div>
