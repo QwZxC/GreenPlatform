@@ -1,0 +1,33 @@
+﻿@using Domain.Entities
+
+<div class="card m-3">
+    <div class="d-flex flex-column m-3 align-items-start">
+        <h1>Теги</h1>
+        <form asp-action="CreateTag"
+              method="get">
+            <div>
+                <input type="submit" value="Создать тег" class="btn btn-success btn-lg float-end" />
+            </div>
+        </form>
+    </div>
+    <div class="m-3 d-flex flex-column align-items-start">
+        @if (ViewBag.Check != null)
+        {
+            await Html.RenderPartialAsync("_CreateTag.cshtml");
+        }
+    </div>
+</div>
+
+<div class="card d-flex flex-column">
+    <div class="card-header">
+        <h1>Список Тегов</h1>
+    </div>
+    <ul class="m-3 list-group list-group-flush">
+        @foreach (Tag tag in ViewBag.TagList)
+        {
+            <li class="list-group-item">
+                <h2 class="text-success">@tag.Name</h2>
+            </li>
+        }
+    </ul>
+</div>

@@ -9,21 +9,27 @@ public class ArticleService : IArticleService
 {
     private readonly IArticleRepository _articleRepository;
     private readonly IUserService _userService;
+    private readonly ITagService _tagService;
 
     public ArticleService(IArticleRepository articleRepository,
-        IUserService userService)
+        IUserService userService,
+        ITagService tagService)
     {
         _articleRepository = articleRepository;
         _userService = userService;
+        _tagService = tagService;
     }
 
     public async Task CreateAsync(CreateArticleViewModel viewModel)
     {
+        List<Tag> tags = new List<Tag>();
+        viewModel.TagGuids.ForEach(async guid => tags.Add(await _tagService.FindTagByIdAsync(guid)));
         Article article = new Article()
         {
             Id = Guid.NewGuid(),
             Title = viewModel.Title,
             Content = viewModel.Content,
+            Tags = tags,
             OwnerId = _userService.GetAuthorizeUserId(),
             CreationDate = DateTime.UtcNow,
         };

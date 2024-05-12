@@ -2,6 +2,16 @@
 }
 
 .button {
-    background-color: transparent;
+    background-color: orange;
     border-color: transparent;
+}
+
+.btn-orange {
+    background: orange;
+    color: whitesmoke;
+}
+
+.btn-orange:hover {
+    background: #eb9800;
+    color: whitesmoke;
 }

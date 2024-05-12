@@ -2,6 +2,8 @@
 using Domain.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Domain.Entities;
 
 namespace GreenPlatform.Controllers;
 
@@ -10,17 +12,19 @@ public class ArticleController : Controller
 {
     private readonly IArticleService _articleService;
     private readonly ICommentService _commentService;
+    private readonly ITagService _tagService;
     private readonly ILogger<ArticleController> _logger;
 
     public ArticleController(
         IArticleService articleService,
         ICommentService commentService,
-        ILogger<ArticleController> logger
-        )
+        ILogger<ArticleController> logger,
+        ITagService tagService)
     {
         _articleService = articleService;
         _commentService = commentService;
         _logger = logger;
+        _tagService = tagService;
     }
 
     [AllowAnonymous]
@@ -64,6 +68,10 @@ public class ArticleController : Controller
     public async Task<IActionResult> Create()
     {
         var reffer = Request.Headers["Referer"].ToString();
+        List<SelectListItem> tagsToSelect = new List<SelectListItem>();
+        List<Tag> tags = await _tagService.FindAllTagsAsync();
+        tags.ForEach(tag => tagsToSelect.Add(new SelectListItem() { Text = tag.Name, Value = tag.Id.ToString()}));
+        ViewBag.TagsToSelect = tagsToSelect;
         if (reffer != null)
         {
             ViewData["Reffer"] = reffer;

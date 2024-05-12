@@ -30,7 +30,7 @@ public class ArticleRepository : BaseRepository<Article>, IArticleRepository
     /// <returns></returns>
     public async override Task<List<Article>> FindAllAsync()
     {
-        return await _context.Article.Include(article => article.Owner).ToListAsync();
+        return await _context.Article.Include(article => article.Tags).Include(article => article.Owner).ToListAsync();
     }
 
     /// <summary>

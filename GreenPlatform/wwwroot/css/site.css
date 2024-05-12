@@ -35,16 +35,6 @@ html {
     border-color: gray;
 }
 
-.btn-orange {
-    background: orange;
-    color: whitesmoke;
-}
-
-.btn-orange:hover {
-    background: #eb9800;
-    color: whitesmoke;
-}
-
 body {
   margin-bottom: 60px;
 }

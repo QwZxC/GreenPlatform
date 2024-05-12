@@ -1,0 +1,14 @@
+﻿@using Domain.Dtos;
+@model CreateTagViewModel;
+
+<form asp-action="CreateTag" method="post">
+    <div asp-validation-summary="ModelOnly"></div>
+    <div class="mb-3">
+        <h2><label class="col-form-label-lg" asp-for="Name"></label></h2>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="d-flex flex-column mb-1 align-items-start">
+        <input type="submit" value="Добавить" class="btn btn-success btn-lg float-end" />
+    </div>
+</form>

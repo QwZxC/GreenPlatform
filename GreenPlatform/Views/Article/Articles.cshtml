@@ -16,7 +16,7 @@
                 <div class="card-body">
                     @if (article.Title.Length > 28)
                     {
-                        <h5 class="card-title">@article.Title.Substring(0,28)...</h5>
+                        <h5 class="card-title">@article.Title.Substring(0, 28)...</h5>
                     }
                     else if (article.Title.Length == 28)
                     {
@@ -30,11 +30,19 @@
                     <div class="card-subtitle">
                         <h6 class="card-subtitle">@article.CreationDate.ToLongDateString() в @article.CreationDate.ToShortTimeString()</h6>
                     </div>
-                    <a class="btn btn-success mt-3"
-                       asp-action="Article"
-                       asp-route-articleId="@article.Id">
-                        Читать
-                    </a>
+                    <div class="d-flex flex-row align-items-end">
+                        <a class="btn btn-success mt-3"
+                           asp-action="Article"
+                           asp-route-articleId="@article.Id">
+                            Читать
+                        </a>
+                        <div class="d-flex flex-wrap">
+                            @foreach (var tag in article.Tags)
+                            {
+                                <h6 class="ms-2 text-success">@tag.Name</h6>
+                            }
+                        </div>
+                    </div>
                 </div>
             </div>
         }

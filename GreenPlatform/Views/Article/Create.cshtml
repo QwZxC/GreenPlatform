@@ -1,4 +1,5 @@
 ﻿@using Domain.Dtos;
+@using Domain.Entities
 @model CreateArticleViewModel
 
 <div class="card align-items justify-content-center">
@@ -18,6 +19,15 @@
                 <span asp-validation-for="Content" class="text-danger"></span>
             </div>
 
+            <div class="d-flex flex-column align-items-start">
+                <h4><label asp-for="TagGuids">Теги</label></h4>
+                <span asp-validation-for="TagGuids" class="text-danger"></span>
+                <select class="form-select" asp-items="ViewBag.TagsToSelect" asp-for="TagGuids" multiple>
+                    <option class="text-lg" disabled>Добавьте теги к своей статье</option>
+                </select>
+                <a asp-action="TagList" asp-controller="Tag" class="btn m-2 btn-success">Добавить тег</a>
+            </div>
+
             <div class="row m-2" j>
                 <div class="col-8">
                     <a asp-action="Articles" class="btn btn-danger">Отмена</a>
@@ -33,3 +43,7 @@
         </form>
     </div>
 </div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/i18n/defaults-*.min.js"></script>
