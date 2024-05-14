@@ -362,3 +362,6 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /.containers/db
+
+*/GreenPlatform/wwwroot/image
+*!/GreenPlatform/wwwroot/image/empty-avatar.jpg
