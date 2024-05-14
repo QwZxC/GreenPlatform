@@ -363,5 +363,5 @@ MigrationBackup/
 FodyWeavers.xsd
 /.containers/db
 
-*/GreenPlatform/wwwroot/image
+/GreenPlatform/wwwroot/image
 *!/GreenPlatform/wwwroot/image/empty-avatar.jpg
