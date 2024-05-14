@@ -3,6 +3,7 @@
 var connection = new signalR.HubConnectionBuilder().withUrl("/comment-hub").build();
 document.getElementById("sendButton").disabled = true;
 const articleOwnerId = document.getElementById("ownerId").value;
+const commentList = document.getElementById("commentsList")
 
 connection.on("JoinGroup", async function (comments) {
     for (let i = 0; i < comments.length; i++) {
@@ -16,7 +17,7 @@ connection.on("JoinGroup", async function (comments) {
 connection.on("ReceiveMessage", async function (commentFromDb) {
     var div = document.createElement("div");
     div.setAttribute('class', 'd-flex flex-column bd-highlight mb-3')
-    document.getElementById("commentsList").appendChild(div);
+    commentList.insertBefore(div, commentList.firstChild);
     await createComment({ comment: commentFromDb, div });
 });
 
