@@ -5,6 +5,7 @@ using Serilog;
 using System.Text;
 using GreenPlatform.Hubs;
 using GreenPlatform.Providers;
+using Microsoft.Extensions.FileProviders;
 
 namespace GreenPlatform;
 
@@ -21,6 +22,7 @@ public static class Program
         builder.Services.AddSignalR();
         builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         builder.Services.AddHttpClient();
+        builder.Services.AddSingleton<IFileProvider>(new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/image")));
         await builder.Services.AddDatabaseAsync(builder
         .Configuration
         .GetConnectionString("Default"));
@@ -75,7 +77,7 @@ public static class Program
         app.UseSerilogRequestLogging();
         app.UseHttpsRedirection();
         app.UseStaticFiles();
-        
+
         app.UseRouting();
         app.UseStatusCodePagesWithReExecute("/Error/{0}");
         app.UseAuthorization();

@@ -38,3 +38,8 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.img-cover {
+    object-fit: cover;
+    object-position: center;
+}

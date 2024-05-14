@@ -3,6 +3,8 @@ using Domain.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Domain.Services;
+using Microsoft.Extensions.FileProviders;
+using Npgsql.Replication;
 
 namespace GreenPlatform.Controllers;
 
@@ -31,7 +33,7 @@ public class AccountController : Controller
         {
             return View();
         }
-        
+
         GreenPlatformUser? user = await _userService
             .FindUserByLoginAndPasswordAsync(model.Login, model.Password);
         if (user == null)
@@ -77,6 +79,37 @@ public class AccountController : Controller
         await _userService.LogOutAsync();
         return RedirectToAction("Login");
     }
+
+    public async Task<IActionResult> PersonalAccount(Guid userId)
+    {
+        ViewBag.User = await _userService.FindByIdAsync(userId);
+        return View();
+    }
+
+    [Authorize]
+    public async Task<IActionResult> EditAccountInfo()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    [Authorize]
+    public async Task<IActionResult> EditAccountInfo(EditAccountViewModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View();
+        }
+        await _userService.EditAccountInfoAsync(model);
+        return Redirect($"PersonalAccount?userId={_userService.GetAuthorizeUserId()}");
+    }
+
+    public async Task<IActionResult> GetUserAvatarName(Guid userId)
+    {
+        string avatarPath = await _userService.GetUserAvatarNameAsync(userId);
+        return !string.IsNullOrWhiteSpace(avatarPath) ? Ok(avatarPath) : Ok("empty-avatar.jpg");
+    }
+
 
     [NonAction]
     private void Log(string action, string login = "")

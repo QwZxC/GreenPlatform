@@ -9,6 +9,8 @@ public class GreenPlatformUser : BaseEntity
     public string? Surname { get; set; }
     public string Login { get; set; }
     public string Password { get; set; }
+    public string? AboutMe { get; set; }
+    public string? AvatarPath { get; set; }
     public DateTime RegistrationDate { get; set; }
     public List<Role> Roles { get; set; }
     public string AccessToken { get; set; }

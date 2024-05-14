@@ -56,8 +56,7 @@ public class ArticleController : Controller
         Log($"Получение подробного просмотра статьи {articleId}");
         var viewModel = new SelectedArticleViewModel()
         {
-            SelectedArticle = await _articleService.FindArticleByIdAsync(articleId),
-            Comments = await _commentService.FindCommentsByArticleIdAsync(articleId)
+            SelectedArticle = await _articleService.FindArticleByIdAsync(articleId)
         };
         return View(viewModel);
     }

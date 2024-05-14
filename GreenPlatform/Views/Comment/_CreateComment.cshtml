@@ -12,19 +12,15 @@
     else
     {
         <div class="container">
-            <div class="mb-3">
-                <div class="input-group">
-                    <div class="form-floating">
-                        <input id="messageInput" asp-for="Content" type="text" class="form-control" placeholder="Введите комментарий" />
-                        <label asp-for="Content" class="form-label w-50">Комментарий</label>
-                        <input id="articleId" asp-for="ArticleId" value="@Model.ArticleId" hidden/>
-                        <input id="userId" value="@userId" hidden />
-                    </div>
-                </div>
-                <span class="text-danger" asp-validation-for="Content"></span>
+            <div class="form-floating w-50">
+                <input id="messageInput" asp-for="Content" type="text" class="form-control" placeholder="Введите комментарий" />
+                <label asp-for="Content" class="form-label">Комментарий</label>
+                <input id="articleId" asp-for="ArticleId" value="@Model.ArticleId" hidden />
+                <input id="userId" value="@userId" hidden />
             </div>
+            <span class="text-danger" asp-validation-for="Content"></span>
             <div class="text-danger mb-2">@ViewBag.Error</div>
-            <input id="sendButton" type="submit" value="Отправить" class="btn btn-outline-success w-50 mb-3">
+            <input id="sendButton" type="submit" value="Отправить" class="btn btn-outline-success mb-3">
         </div>
     }
 }

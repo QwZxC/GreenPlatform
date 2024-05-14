@@ -1,0 +1,27 @@
+﻿@using Domain.Dtos;
+@using Domain.Services
+@model PersonalAccountViewModel
+@inject IUserService _userService;
+
+<div>
+    <h1>Личный кабинет</h1>
+</div>
+
+<div class="card">
+    @if (string.IsNullOrWhiteSpace(ViewBag.User.AvatarPath))
+    {
+        <img src="~/image/empty-avatar.jpg" class="image-profile card-img img-cover p-3" alt="Raeesh">
+    }
+    else
+    {
+        <img src="~/image/@ViewBag.User.AvatarPath" class="image-profile card-img img-cover p-3" alt="Raeesh" />
+    }
+    <div class="card-body">
+        <h5 class="card-title">@ViewBag.User.Login</h5>
+        <p class="card-text">@ViewBag.User.AboutMe</p>
+        @if (_userService.GetAuthorizeUserId() == ViewBag.User.Id)
+        {
+            <a asp-controller="Account" asp-action="EditAccountInfo" class="btn btn-orange">Редактировать</a>
+        }
+    </div>
+</div>

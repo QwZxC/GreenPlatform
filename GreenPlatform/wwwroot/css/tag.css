@@ -1,33 +1,13 @@
 ﻿.tag {
-    display: inline-block;
-    padding: 0 7px;
-    font-size: 12px;
-    font-weight: var(--base-text-weight-medium, 500);
-    line-height: 18px;
-    white-space: nowrap;
-    border: 1px solid transparent;
-    border-radius: 2em;
+    border: 1px solid #00D901;
+    border-radius: 30px;
+    color: #00D901;
+    background: rgb(0 217 1 / 18%);
+    padding: 3px 7px;
+    font-size: 14px;
+    cursor: pointer;
 }
 
-.hx_tag {
-    --perceived-lightness: calc( ((var(--label-r) * 0.2126) + (var(--label-g) * 0.7152) + (var(--label-b) * 0.0722)) / 255 );
-    --lightness-switch: max(0, min(calc((1/(var(--lightness-threshold) - var(--perceived-lightness)))), 1));
-}
-
-.mr-1 {
-    margin-right: var(--base-size-4, 4px) !important;
-}
-
-.width-fit {
-    max-width: 100% !important;
-}
-
-.mb-1 {
-    margin-bottom: var(--base-size-4, 4px) !important;
-}
-
-.css-truncate .css-truncate-target, .css-truncate.css-truncate-target {
-    display: inline-block;
-    max-width: 125px;
-    vertical-align: top;
+.tag:hover {
+    background: rgb(0 217 1 / 30%);
 }

@@ -4,12 +4,18 @@
 @inject IUserService userService
 @model SelectedArticleViewModel
 
-<div class="d-flex flex-column">
-    <div class="d-flex flex-row">
-        <h2>@Model.SelectedArticle.Owner.Login</h2>
-        <h4 class="align-content-end">•@Model.SelectedArticle.CreationDate.ToLongDateString()</h4>
-    </div>
-    <input id="ownerId" value="@Model.SelectedArticle.Owner.Id" hidden />
+<input id="ownerId" value="@Model.SelectedArticle.Owner.Id" hidden />
+
+<div class="row row-cols-auto">
+    @if (string.IsNullOrWhiteSpace(Model.SelectedArticle.Owner.AvatarPath))
+    {
+        <img src="~/image/empty-avatar.jpg" class="image-lg card-img-top img-cover p-3" alt="Raeesh">
+    }
+    else
+    {
+        <img src="~/image/@Model.SelectedArticle.Owner.AvatarPath" class="image-lg card img-cover p-3" alt="Raeesh" />
+    }
+    <h3 class="col">@Model.SelectedArticle.Owner.Login•@Model.SelectedArticle.CreationDate.ToLongDateString()</h3>
     <h1 class="text-center">@Model.SelectedArticle.Title</h1>
 </div>
 

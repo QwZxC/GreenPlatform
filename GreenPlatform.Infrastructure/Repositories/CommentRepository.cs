@@ -21,6 +21,7 @@ public class CommentRepository : BaseRepository<Comment>, ICommentRepository
         return await _context
             .Comment
             .Include(comment => comment.Creator)
+            .OrderBy(comment => comment.CreationDate)
             .Where(comment => comment.ArticleId == articleId)
             .ToListAsync();
     }

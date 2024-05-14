@@ -1,4 +1,6 @@
-﻿using Domain.Entities;
+﻿using Domain.Dtos;
+using Domain.Entities;
+using GreenPlatform.Domain.Dtos;
 
 namespace Domain.Services;
 
@@ -12,4 +14,7 @@ public interface IUserService
     Task SaveAsync();
     Task LoginAsync(GreenPlatformUser user);
     Task LogOutAsync();
+    Task<UserDto> FindByIdAsync(Guid guid);
+    Task EditAccountInfoAsync(EditAccountViewModel model);
+    Task<string?> GetUserAvatarNameAsync(Guid userId);
 }

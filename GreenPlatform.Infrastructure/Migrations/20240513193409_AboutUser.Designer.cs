@@ -3,17 +3,20 @@ using System;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Infrastructure.Migrations
+namespace GreenPlatform.Infrastructure.Migrations
 {
     [DbContext(typeof(GreenPlatformDbContext))]
-    partial class GreenPlatformDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240513193409_AboutUser")]
+    partial class AboutUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -104,13 +107,11 @@ namespace Infrastructure.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("AboutMe")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("AccessToken")
                         .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("AvatarPath")
                         .HasColumnType("text");
 
                     b.Property<string>("Login")

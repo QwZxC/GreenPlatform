@@ -2,9 +2,11 @@
 using Domain.Repositories;
 using Microsoft.AspNetCore.Http;
 using Domain.Services;
-using Common.Exceptions;
 using Microsoft.Extensions.Logging;
-using System;
+using AutoMapper;
+using GreenPlatform.Domain.Dtos;
+using Domain.Dtos;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Core;
 
@@ -14,7 +16,9 @@ public class UserService : IUserService
     private readonly IRoleService _roleService;
     private readonly IPasswordHasher _passwordHasher;
     private readonly ITokenService _tokenService;
+    private readonly IMapper _mapper;
     private readonly IHttpContextAccessor _contextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly ILogger<UserService> _logger;
 
     public UserService(
@@ -23,7 +27,9 @@ public class UserService : IUserService
         IPasswordHasher passwordHasher,
         ITokenService tokenService,
         IHttpContextAccessor contextAccessor,
-        ILogger<UserService> logger)
+        ILogger<UserService> logger,
+        IMapper mapper,
+        IWebHostEnvironment webHostEnvironment)
     {
         _userRepository = userRepository;
         _roleService = roleService;
@@ -31,6 +37,8 @@ public class UserService : IUserService
         _tokenService = tokenService;
         _contextAccessor = contextAccessor;
         _logger = logger;
+        _mapper = mapper;
+        _webHostEnvironment = webHostEnvironment;
     }
 
     public async Task<GreenPlatformUser> CreateUserAsync(string login, string password)
@@ -112,5 +120,51 @@ public class UserService : IUserService
         _logger.LogInformation("{@User} вышел из аккаунта" +
             "\t\tВремя: {Time}\n" +
             "\t\tДата: {Date}\n", user, DateTime.Now.ToShortTimeString(), DateTime.Now.ToShortDateString());
+    }
+
+    public async Task<UserDto> FindByIdAsync(Guid guid)
+    {
+        return _mapper.Map<UserDto>(await _userRepository.FindByIdAsync(guid));
+    }
+
+    public async Task EditAccountInfoAsync(EditAccountViewModel model)
+    {
+        GreenPlatformUser greenPlatformUser = await _userRepository.FindByIdAsync(GetAuthorizeUserId());
+        greenPlatformUser.Login = model.Login;
+        greenPlatformUser.AboutMe = model.AboutMe;
+        if (model.ProfileImage != null)
+        {
+            await SaveUserAvatarAsync(model, greenPlatformUser);
+        }
+        _userRepository.Update(greenPlatformUser);
+        await SaveAsync();
+    }
+
+    private async Task SaveUserAvatarAsync(EditAccountViewModel model, GreenPlatformUser user)
+    {
+        string fileName = Path.GetFileName(model.ProfileImage.FileName);
+        string extensions = Path.GetExtension(model.ProfileImage.FileName);
+        if (!string.IsNullOrWhiteSpace(user.AvatarPath))
+        {
+            DeletePreviousAvatar(user);
+        }
+        user.AvatarPath = fileName + user.Id + extensions;
+        string path = Path.Combine(_webHostEnvironment.WebRootPath + "/image/" + user.AvatarPath);
+        using(var fileStream = new FileStream(path, FileMode.Create)) 
+        {
+            await model.ProfileImage.CopyToAsync(fileStream);
+        }
+    }
+
+    private void DeletePreviousAvatar(GreenPlatformUser user)
+    {
+        string pathToDelete = Path.Combine(_webHostEnvironment.WebRootPath + "/image/" + user.AvatarPath);
+        File.Delete(pathToDelete);
+    }
+
+    public async Task<string?> GetUserAvatarNameAsync(Guid userId)
+    {
+        GreenPlatformUser user = await _userRepository.FindByIdAsync(userId);
+        return user.AvatarPath;
     }
 }

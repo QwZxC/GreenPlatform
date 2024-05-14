@@ -1,6 +1,4 @@
-﻿using Domain.Entities;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Dtos;
@@ -13,6 +11,7 @@ public class CreateArticleViewModel
     public string Title { get; set; }
     [Required(ErrorMessage = "У статьи должно быть содержание")]
     [DisplayName("Содержание")]
+    [MinLength(100, ErrorMessage = "Слишком маленькая статья.")]
     public string Content { get; set; }
     public string PreviousUrl { get; set; }
     [Required(ErrorMessage = "Добавьте тег в вашу статью")]

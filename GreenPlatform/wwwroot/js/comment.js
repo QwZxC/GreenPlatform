@@ -2,101 +2,22 @@
 
 var connection = new signalR.HubConnectionBuilder().withUrl("/comment-hub").build();
 document.getElementById("sendButton").disabled = true;
+const articleOwnerId = document.getElementById("ownerId").value;
 
 connection.on("JoinGroup", async function (comments) {
-    const articleOwnerId = document.getElementById("ownerId").value;
-    async function getAuthorizedUserId() {
-        const response = await fetch('/Account/GetAuthorizedUserId');
-        return await response.json();
-    }
-    var authorizedUserId = await getAuthorizedUserId();
     for (let i = 0; i < comments.length; i++) {
         var div = document.createElement("div");
         div.setAttribute('class', 'd-flex flex-column bd-highlight mb-3')
         document.getElementById("commentsList").appendChild(div);
-        if (authorizedUserId == comments[i].creator.id || authorizedUserId == articleOwnerId) {
-            div.innerHTML = `
-                <div id="${comments[i].id}" class="p-2 card bd-highlight">
-                    <div class=d-flex flex-row>
-                        <h2 class="me-2">${comments[i].creator.login}</h2>
-                        <label class="text-center align-content-center me-2">${formatDate(comments[i].creationDate)}</label>
-                        <form action="/${comments[i].id}?articleId=${comments[i].articleId}"
-                              method="post">
-                            <button data-comment="deleteComment" class="button" type="submit"><i class="fa-solid fa-trash"></i></button>    
-                        </form>
-                    </div>
-                    <h4>${comments[i].content}</h4>
-                </div>
-            `;
-            const deletebuttons = div.querySelectorAll('[data-comment="deleteComment"]');
-
-            deletebuttons.forEach((el) => {
-                el.addEventListener('click', function () {
-                    connection.invoke('DeleteComment', comments[i].id).catch(function (err) {
-                        return console.error(err.toString());
-                    });
-                });
-            });
-        }
-        else {
-            div.innerHTML = `
-                <div id="${comments[i].id}" class=" card p-2 bd-highlight">
-                    <div class=d-flex flex-row>
-                        <h2 class="me-2">${comments[i].creator.login}</h2>
-                        <label class="text-center align-content-center me-2">${formatDate(comments[i].creationDate)}</label>
-                    </div>
-                    <h4>${comments[i].content}</h4>
-                </div>
-            `;
-        }
+        await createComment({ comment: comments[i], div });
     }
 });
 
 connection.on("ReceiveMessage", async function (commentFromDb) {
-    const articleOwnerId = document.getElementById("ownerId").value;
     var div = document.createElement("div");
     div.setAttribute('class', 'd-flex flex-column bd-highlight mb-3')
     document.getElementById("commentsList").appendChild(div);
-
-    async function getAuthorizedUserId() {
-        const response = await fetch('/Account/GetAuthorizedUserId');
-        return await response.json();
-    }
-    var authorizedUserId = await getAuthorizedUserId();
-
-    if (authorizedUserId == commentFromDb.creator.id || authorizedUserId == articleOwnerId) {
-        div.innerHTML = `
-                <div id="${commentFromDb.id}" class="p-2 card bd-highlight">
-                    <div class=d-flex flex-row>
-                        <h2 class="me-2">${commentFromDb.creator.login}</h2>
-                        <label class="text-center align-content-center me-2">${formatDate(commentFromDb.creationDate)}</label>
-                        <form action="/${commentFromDb.id}?articleId=${commentFromDb.articleId}"
-                              method="post">
-                            <button id="${commentFromDb.id}" data-comment="deleteComment" class="button" type="submit" ><i class="fa-solid fa-trash"></i></button>    
-                        </form>
-                    </div>
-                    <h4>${commentFromDb.content}</h4>
-                </div>
-            `;
-        const deletebutton = div.querySelector('[data-comment="deleteComment"]');
-
-        deletebutton.addEventListener('click', function () {
-            connection.invoke('DeleteComment', commentFromDb.id).catch(function (err) {
-                return console.error(err.toString());
-            });
-        });
-    }
-    else {
-        div.innerHTML = `
-                <div id="${commentFromDb.id}" class="p-2 card bd-highlight">
-                    <div class=d-flex flex-row>
-                        <h2 class="me-2">${commentFromDb.creator.login}</h2>
-                        <label class="text-center align-content-center me-2">${formatDate(commentFromDb.creationDate)}</label>
-                    </div>
-                    <h4>${commentFromDb.content}</h4>
-                </div>
-            `;
-    }
+    await createComment({ comment: commentFromDb, div });
 });
 
 connection.on("DeleteComment", function (commentId) {
@@ -124,6 +45,61 @@ document.getElementById("sendButton").addEventListener("click", function (event)
     });
     event.preventDefault();
 });
+
+async function getAuthorizedUserId() {
+    const response = await fetch('/Account/GetAuthorizedUserId');
+    return await response.json();
+}
+
+async function getUserAvatarPath(userId) {
+    const response = await fetch(`/Account/GetUserAvatarName?userId=${userId}`);
+    return await response.text();
+}
+
+async function createComment({ comment, div }) {
+    const authorizedUserId = await getAuthorizedUserId();
+    const userAvatarPath = await getUserAvatarPath(comment.creator.id);
+    if (authorizedUserId == comment.creator.id || authorizedUserId == articleOwnerId) {
+        div.innerHTML = `
+                <div id="${comment.id}" class="p-2 card bd-highlight">
+                    <div class="d-flex flex-row justify align-content-start">
+                        <img src="../image/${userAvatarPath}" class="image-comment card-img-top img-cover p-3" alt="Raeesh"/>
+                        <div>
+                            <h2 class="me-2">${comment.creator.login}</h2>
+                            <label class="text-center align-content-center me-2">${formatDate(comment.creationDate)}</label>
+                        </div>
+                        <form action="/${comment.id}?articleId=${comment.articleId}"
+                              method="post"
+                              class="ms-auto">
+                            <button id="${comment.id}" data-comment="deleteComment" class="button" type="submit" ><i class="fa-solid fa-trash"></i></button>    
+                        </form>
+                    </div>
+                    <h4>${comment.content}</h4>
+                </div>
+            `;
+        const deletebutton = div.querySelector('[data-comment="deleteComment"]');
+
+        deletebutton.addEventListener('click', function () {
+            connection.invoke('DeleteComment', comment.id).catch(function (err) {
+                return console.error(err.toString());
+            });
+        });
+    }
+    else {
+        div.innerHTML = `
+                <div id="${comment.id}" class="p-2 card bd-highlight">
+                    <div class=d-flex flex-row>
+                        <img src="../image/${userAvatarPath}" class="image-comment card-img-top img-cover p-3" alt="Raeesh"/>
+                        <div class="align-content-center">
+                            <h2 class="me-2">${comment.creator.login}</h2>
+                            <label class="text-center align-content-center me-2">${formatDate(comment.creationDate)}</label>
+                        </div>
+                    </div>
+                    <h4>${comment.content}</h4>
+                </div>
+            `;
+    }
+}
 
 function formatDate(date) {
     var d = new Date(date),
