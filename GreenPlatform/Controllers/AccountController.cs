@@ -3,8 +3,6 @@ using Domain.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Domain.Services;
-using Microsoft.Extensions.FileProviders;
-using Npgsql.Replication;
 using GreenPlatform.Domain.Dtos;
 
 namespace GreenPlatform.Controllers;
