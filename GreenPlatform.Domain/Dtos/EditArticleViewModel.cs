@@ -10,6 +10,10 @@ public class EditArticleViewModel
     public string Title { get; set; }
     [Required(ErrorMessage = "Содержание обязательно для заполнения")]
     public string Content { get; set; }
+    [Required(ErrorMessage = "Добавьте тег в вашу статью")]
+    [MinLength(1, ErrorMessage = "Выберите 1 тег для статьи")]
+    [MaxLength(3, ErrorMessage = "Вы можете выбрать только 3 тега для статьи")]
+    public List<Guid> TagGuids { get; set; }
 
     public EditArticleViewModel(Article article) 
     { 

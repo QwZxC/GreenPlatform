@@ -7,17 +7,17 @@
         <div>
             <div class="mb-1">
                 <label asp-for="Login"></label>
-                <input asp-for="Login" class="form-control" />
+                <input asp-for="Login" class="form-control" value="@ViewBag.User.Login" />
                 <span asp-validation-for="Login" class="text-danger"></span>
             </div>
             <div class="mb-1">
                 <label asp-for="AboutMe"></label>
-                <input asp-for="AboutMe" class="form-control" />
+                <input asp-for="AboutMe" class="form-control" value="@ViewBag.User.AboutMe" />
                 <span asp-validation-for="Login" class="text-danger"></span>
             </div>
             <div class="mb-1">
                 <label asp-for="ProfileImage"></label>
-                <input asp-for="ProfileImage" class="form-control"/>
+                <input asp-for="ProfileImage" class="form-control" />
                 <span asp-validation-for="ProfileImage" class="text-danger"></span>
             </div>
             <div class="col-4">

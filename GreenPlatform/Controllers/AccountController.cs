@@ -88,6 +88,7 @@ public class AccountController : Controller
     [Authorize]
     public async Task<IActionResult> EditAccountInfo()
     {
+        ViewBag.User = await _userService.FindByIdAsync(_userService.GetAuthorizeUserId());
         return View();
     }
 

@@ -67,10 +67,7 @@ public class ArticleController : Controller
     public async Task<IActionResult> Create()
     {
         var reffer = Request.Headers["Referer"].ToString();
-        List<SelectListItem> tagsToSelect = new List<SelectListItem>();
-        List<Tag> tags = await _tagService.FindAllTagsAsync();
-        tags.ForEach(tag => tagsToSelect.Add(new SelectListItem() { Text = tag.Name, Value = tag.Id.ToString()}));
-        ViewBag.TagsToSelect = tagsToSelect;
+        ViewBag.TagsToSelect = await GetTagsAsync();
         if (reffer != null)
         {
             ViewData["Reffer"] = reffer;
@@ -99,7 +96,16 @@ public class ArticleController : Controller
     {
         var viewModel = new EditArticleViewModel(
             await _articleService.FindArticleByIdAsync(articleId));
+        ViewBag.TagsToSelect = await GetTagsAsync();
         return View(viewModel);
+    }
+
+    private async Task<List<SelectListItem>> GetTagsAsync()
+    {
+        List<SelectListItem> tagsToSelect = new List<SelectListItem>();
+        List<Tag> tags = await _tagService.FindAllTagsAsync();
+        tags.ForEach(tag => tagsToSelect.Add(new SelectListItem() { Text = tag.Name, Value = tag.Id.ToString() }));
+        return tagsToSelect;
     }
 
     [HttpPost]
