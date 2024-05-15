@@ -39,9 +39,9 @@
                 </div>
                 @{
                     Guid userId = _userService.GetAuthorizeUserId();
-                    UserDto user = await _userService.FindByIdAsync(userId);
                     if (userId != Guid.Empty)
                     {
+                        UserDto user = await _userService.FindByIdAsync(userId);
                         <div class="navbar-collapse collapse align-content-start">
                             <ul class="navbar-nav flex-grow-1">
                                 <li class="nav-item">
