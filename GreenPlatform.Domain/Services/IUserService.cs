@@ -6,7 +6,7 @@ namespace Domain.Services;
 
 public interface IUserService
 {
-    Task<GreenPlatformUser> FindUserByLoginAsync(string login);
+    Task<UserDto> FindUserByLoginAsync(string login);
     Task<GreenPlatformUser?> FindUserByLoginAndPasswordAsync(string login, string password);
     Task<GreenPlatformUser> CreateUserAsync(string login, string password);
     Task<List<GreenPlatformUser>> FindAllAsync();

@@ -7,9 +7,9 @@ namespace Domain.Dtos;
 public class EditAccountViewModel
 {
     [DisplayName("Аватар профиля")]
-    public IFormFile ProfileImage { get; set; }
+    public IFormFile? ProfileImage { get; set; }
+    
     [DisplayName("О себе")]
-    [MaxLength(100)]
     public string AboutMe { get; set; }
     [Required(ErrorMessage = "Это поле обязательно для заполнения")]
     [DisplayName("Логин")]

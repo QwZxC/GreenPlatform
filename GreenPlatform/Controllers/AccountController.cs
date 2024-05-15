@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Domain.Services;
 using Microsoft.Extensions.FileProviders;
 using Npgsql.Replication;
+using GreenPlatform.Domain.Dtos;
 
 namespace GreenPlatform.Controllers;
 
@@ -80,9 +81,9 @@ public class AccountController : Controller
         return RedirectToAction("Login");
     }
 
-    public async Task<IActionResult> PersonalAccount(Guid userId)
+    public async Task<IActionResult> PersonalAccount(string login)
     {
-        ViewBag.User = await _userService.FindByIdAsync(userId);
+        ViewBag.User = await _userService.FindUserByLoginAsync(login);
         return View();
     }
 
@@ -101,7 +102,8 @@ public class AccountController : Controller
             return View();
         }
         await _userService.EditAccountInfoAsync(model);
-        return Redirect($"PersonalAccount?userId={_userService.GetAuthorizeUserId()}");
+        UserDto user = await _userService.FindByIdAsync(_userService.GetAuthorizeUserId());
+        return Redirect($"PersonalAccount?login={user.Login}");
     }
 
     public async Task<IActionResult> GetUserAvatarName(Guid userId)

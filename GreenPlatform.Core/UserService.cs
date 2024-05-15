@@ -75,9 +75,9 @@ public class UserService : IUserService
         return null;
     }
 
-    public async Task<GreenPlatformUser> FindUserByLoginAsync(string login)
+    public async Task<UserDto> FindUserByLoginAsync(string login)
     {
-        return await _userRepository.FindByLoginAsync(login);
+        return _mapper.Map<UserDto>(await _userRepository.FindByLoginAsync(login));
     }
 
     public async Task LoginAsync(GreenPlatformUser user)

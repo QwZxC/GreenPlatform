@@ -7,7 +7,7 @@
     <h1>Личный кабинет</h1>
 </div>
 
-<div class="card">
+<div class="card d-flex flex-row">
     @if (string.IsNullOrWhiteSpace(ViewBag.User.AvatarPath))
     {
         <img src="~/image/empty-avatar.jpg" class="image-profile card-img img-cover p-3" alt="Raeesh">
@@ -16,12 +16,59 @@
     {
         <img src="~/image/@ViewBag.User.AvatarPath" class="image-profile card-img img-cover p-3" alt="Raeesh" />
     }
-    <div class="card-body">
-        <h5 class="card-title">@ViewBag.User.Login</h5>
-        <p class="card-text">@ViewBag.User.AboutMe</p>
+    <div class="card-body d-flex flex-column flex-fill">
+        <h1 class="card-title">@ViewBag.User.Login</h1>
+        <div class="card-text">
+            <p>@ViewBag.User.AboutMe</p>
+        </div>
         @if (_userService.GetAuthorizeUserId() == ViewBag.User.Id)
         {
-            <a asp-controller="Account" asp-action="EditAccountInfo" class="btn btn-orange">Редактировать</a>
+            <div class="d-flex flex-fill align-self-end align-content-end">
+                <a asp-controller="Account" asp-action="EditAccountInfo" class="btn btn-orange align-self-end">Редактировать</a>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="d-flex flex-column mt-3">
+    <h1 class="align-self-center">Статьи пользователя</h1>
+    <div class="d-flex justify-content-left flex-wrap">
+        @foreach (var article in ViewBag.User.Articles)
+        {
+            <div class="card m-3 article_card"
+                 style="width: 30%;">
+                <div class="card-body">
+                    @if (article.Title.Length > 28)
+                    {
+                        <h5 class="card-title">@article.Title.Substring(0, 28)...</h5>
+                    }
+                    else if (article.Title.Length == 28)
+                    {
+                        <h5 class="card-title">@article.Title.Substring(0, 28)</h5>
+                    }
+                    else
+                    {
+                        <h5 class="card-title">@article.Title</h5>
+                    }
+                    <p class="card-text">@article.Content.Substring(0, 76)...</p>
+                    <div class="card-subtitle">
+                        <h6 class="card-subtitle">@article.CreationDate.ToLongDateString() в @article.CreationDate.ToShortTimeString()</h6>
+                    </div>
+                    <div class="d-flex flex-row align-items-end">
+                        <a class="btn btn-success mt-3"
+                           asp-action="Article"
+                           asp-route-articleId="@article.Id">
+                            Читать
+                        </a>
+                        <div class="d-flex flex-wrap">
+                            @foreach (var tag in article.Tags)
+                            {
+                                <span class="tag ms-2 mt-2">@tag.Name</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
         }
     </div>
 </div>

@@ -1,4 +1,5 @@
 ﻿@using Domain.Services
+@using GreenPlatform.Domain.Dtos
 @inject IUserService _userService
 
 <!DOCTYPE html>
@@ -38,6 +39,7 @@
                 </div>
                 @{
                     Guid userId = _userService.GetAuthorizeUserId();
+                    UserDto user = await _userService.FindByIdAsync(userId);
                     if (userId != Guid.Empty)
                     {
                         <div class="navbar-collapse collapse align-content-start">
@@ -53,7 +55,7 @@
                                     <a class="nav-link text-dark" asp-area=""
                                        asp-controller="Account"
                                        asp-action="PersonalAccount"
-                                       asp-route-userId="@userId">Личный кабинет</a>
+                                       asp-route-login="@user.Login">Личный кабинет</a>
                                 </li>
                             </ul>
                         </div>
