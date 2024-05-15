@@ -16,5 +16,4 @@ public interface IUserService
     Task LogOutAsync();
     Task<UserDto> FindByIdAsync(Guid guid);
     Task EditAccountInfoAsync(EditAccountViewModel model);
-    Task<string?> GetUserAvatarNameAsync(Guid userId);
 }

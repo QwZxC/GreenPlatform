@@ -17,6 +17,7 @@ public static class ServiceProdiver
         services.AddScoped<IEcologyService, EcologyService>();
         services.AddScoped<IGeocodingService, GeocodingService>();
         services.AddScoped<ITagService, TagService>();
+        services.AddScoped<IImageService, ImageService>();
         services.AddSingleton<IPasswordHasher, PasswordHasher>();
     }
 }

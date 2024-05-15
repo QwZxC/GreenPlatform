@@ -18,8 +18,8 @@ public class UserService : IUserService
     private readonly ITokenService _tokenService;
     private readonly IMapper _mapper;
     private readonly IHttpContextAccessor _contextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly ILogger<UserService> _logger;
+    private readonly IImageService _imageService;
 
     public UserService(
         IUserRepository userRepository,
@@ -29,7 +29,7 @@ public class UserService : IUserService
         IHttpContextAccessor contextAccessor,
         ILogger<UserService> logger,
         IMapper mapper,
-        IWebHostEnvironment webHostEnvironment)
+        IImageService imageService)
     {
         _userRepository = userRepository;
         _roleService = roleService;
@@ -38,7 +38,7 @@ public class UserService : IUserService
         _contextAccessor = contextAccessor;
         _logger = logger;
         _mapper = mapper;
-        _webHostEnvironment = webHostEnvironment;
+        _imageService = imageService;
     }
 
     public async Task<GreenPlatformUser> CreateUserAsync(string login, string password)
@@ -134,37 +134,9 @@ public class UserService : IUserService
         greenPlatformUser.AboutMe = model.AboutMe;
         if (model.ProfileImage != null)
         {
-            await SaveUserAvatarAsync(model, greenPlatformUser);
+            await _imageService.SaveUserAvatarAsync(model, greenPlatformUser);
         }
         _userRepository.Update(greenPlatformUser);
         await SaveAsync();
-    }
-
-    private async Task SaveUserAvatarAsync(EditAccountViewModel model, GreenPlatformUser user)
-    {
-        string fileName = Path.GetFileName(model.ProfileImage.FileName);
-        string extensions = Path.GetExtension(model.ProfileImage.FileName);
-        if (!string.IsNullOrWhiteSpace(user.AvatarPath))
-        {
-            DeletePreviousAvatar(user);
-        }
-        user.AvatarPath = fileName + user.Id + extensions;
-        string path = Path.Combine(_webHostEnvironment.WebRootPath + "/image/" + user.AvatarPath);
-        using(var fileStream = new FileStream(path, FileMode.Create)) 
-        {
-            await model.ProfileImage.CopyToAsync(fileStream);
-        }
-    }
-
-    private void DeletePreviousAvatar(GreenPlatformUser user)
-    {
-        string pathToDelete = Path.Combine(_webHostEnvironment.WebRootPath + "/image/" + user.AvatarPath);
-        File.Delete(pathToDelete);
-    }
-
-    public async Task<string?> GetUserAvatarNameAsync(Guid userId)
-    {
-        GreenPlatformUser user = await _userRepository.FindByIdAsync(userId);
-        return user.AvatarPath;
     }
 }

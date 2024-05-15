@@ -53,7 +53,7 @@ async function getAuthorizedUserId() {
 }
 
 async function getUserAvatarPath(userId) {
-    const response = await fetch(`/Account/GetUserAvatarName?userId=${userId}`);
+    const response = await fetch(`/api/Images/${userId}`);
     return await response.text();
 }
 

@@ -18,6 +18,7 @@ public static class Program
         builder.Host.UseSerilog((context, loggerConfig) =>
             loggerConfig.ReadFrom.Configuration(context.Configuration));
         builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+        builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddHttpContextAccessor();        
         builder.Services.AddSignalR();
         builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -79,6 +80,7 @@ public static class Program
         app.UseStaticFiles();
 
         app.UseRouting();
+        app.MapControllers();
         app.UseStatusCodePagesWithReExecute("/Error/{0}");
         app.UseAuthorization();
         app.MapHub<CommentHub>("comment-hub");

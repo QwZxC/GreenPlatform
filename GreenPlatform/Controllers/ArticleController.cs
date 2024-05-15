@@ -100,6 +100,7 @@ public class ArticleController : Controller
         return View(viewModel);
     }
 
+    [NonAction]
     private async Task<List<SelectListItem>> GetTagsAsync()
     {
         List<SelectListItem> tagsToSelect = new List<SelectListItem>();

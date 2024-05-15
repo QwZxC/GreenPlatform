@@ -105,13 +105,6 @@ public class AccountController : Controller
         return Redirect($"PersonalAccount?login={user.Login}");
     }
 
-    public async Task<IActionResult> GetUserAvatarName(Guid userId)
-    {
-        string avatarPath = await _userService.GetUserAvatarNameAsync(userId);
-        return !string.IsNullOrWhiteSpace(avatarPath) ? Ok(avatarPath) : Ok("empty-avatar.jpg");
-    }
-
-
     [NonAction]
     private void Log(string action, string login = "")
     {
