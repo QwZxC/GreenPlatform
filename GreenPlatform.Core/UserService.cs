@@ -6,7 +6,6 @@ using Microsoft.Extensions.Logging;
 using AutoMapper;
 using GreenPlatform.Domain.Dtos;
 using Domain.Dtos;
-using Microsoft.AspNetCore.Hosting;
 
 namespace Core;
 

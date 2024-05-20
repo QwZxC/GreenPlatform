@@ -10,4 +10,6 @@ public interface IArticleRepository : IBaseRepository<Article>
     /// <param name="userId"></param>
     /// <returns></returns>
     Task<List<Article>> FindAllArticlesForUserAsync(Guid userId);
+
+    Task<List<Article>> FindAllArticelsByTitle(string name);
 }

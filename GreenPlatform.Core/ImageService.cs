@@ -1,7 +1,7 @@
 ﻿using Domain.Dtos;
 using Domain.Entities;
+using Domain.Repositories;
 using Domain.Services;
-using GreenPlatform.Domain.Dtos;
 using Microsoft.AspNetCore.Hosting;
 
 namespace Core;
@@ -9,12 +9,12 @@ namespace Core;
 public class ImageService : IImageService
 {
     private readonly IWebHostEnvironment _webHostEnvironment;
-    private readonly IUserService _userService;
+    private readonly IUserRepository _userRepository;
 
-    public ImageService(IWebHostEnvironment webHostEnvironment, IUserService userService)
+    public ImageService(IWebHostEnvironment webHostEnvironment, IUserRepository userRepository)
     {
         _webHostEnvironment = webHostEnvironment;
-        _userService = userService;
+        _userRepository = userRepository;
     }
 
     public async Task SaveUserAvatarAsync(EditAccountViewModel model, GreenPlatformUser user)
@@ -39,7 +39,7 @@ public class ImageService : IImageService
 
     public async Task<string?> GetUserAvatarNameAsync(Guid userId)
     {
-        UserDto user = await _userService.FindByIdAsync(userId);
+        GreenPlatformUser user = await _userRepository.FindByIdAsync(userId);
         return user.AvatarPath;
     }
 }

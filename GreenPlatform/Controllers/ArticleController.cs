@@ -28,11 +28,12 @@ public class ArticleController : Controller
     }
 
     [AllowAnonymous]
-    public async Task<IActionResult> Articles()
+    public async Task<IActionResult> Articles(string title = "")
     {
+        title = title.Trim();
         var viewModel = new ArticleListViewModel()
         {
-            Articles = await _articleService.FindAllArticlesAsync()
+            Articles = await _articleService.FindAllArticlesAsync(title)
         };
         return View(viewModel);
     }
