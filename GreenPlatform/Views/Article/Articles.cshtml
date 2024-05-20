@@ -1,20 +1,20 @@
 ﻿ @using Domain.Dtos;
  @model ArticleListViewModel
 
-<div>
+<div class="d-flex flex-column">
     <div class="flex-column d-flex card justify-content-between align-items-center mb-3">
         <h2>Статьи</h2>
         <a class="btn btn-outline-success mb-3" asp-action="Create">
             <i class="fa fa-plus" aria-hidden="true"></i>
         </a>
     </div>
-    <div class="d-flex justify-content-center">
-        <form asp-action="Articles" style="width: 50%;">
-            <div class="row">
-                <div class="col col-md-8">
+    <div class="d-flex align-self-center card p-2" style="width: 40%;">
+        <form asp-action="Articles" class="flex-fill" method="get">
+            <div class="d-flex">
+                <div class="flex-fill me-3">
                     <input name="title" class="form-control" placeholder="Введите название статьи..." />
                 </div>
-                <div class="col col-md-4">
+                <div class="mh-1">
                     <button type="submit" class="btn btn-success">
                         <i class="fa fa-search" aria-hidden="true"></i>
                     </button>
@@ -23,6 +23,10 @@
         </form>
     </div>
     <div class="d-flex justify-content-left flex-wrap">
+        @if(Model.Articles.Count == 0)
+        {
+            <p>Статей по вашему запросу нет</p>
+        }
         @foreach (var article in Model.Articles)
         {
             <div class="card m-3 article_card"

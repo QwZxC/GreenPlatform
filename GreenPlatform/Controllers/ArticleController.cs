@@ -28,7 +28,7 @@ public class ArticleController : Controller
     }
 
     [AllowAnonymous]
-    public async Task<IActionResult> Articles(string title = "")
+    public async Task<IActionResult> Articles([FromQuery] string title = "")
     {
         title = title.Trim();
         var viewModel = new ArticleListViewModel()
