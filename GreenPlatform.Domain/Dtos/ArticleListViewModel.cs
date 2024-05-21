@@ -1,8 +1,10 @@
-﻿using Domain.Entities;
+﻿using System.ComponentModel;
 
 namespace Domain.Dtos;
 
 public class ArticleListViewModel
 {
-    public List<Article> Articles { get; set; }
+    public string Title { get; set; } = string.Empty;
+    [DisplayName("Отсортировать по")]
+    public string PropertyNameToSorting { get; set; } = "CreationDate";
 }

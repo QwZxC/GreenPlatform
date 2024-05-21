@@ -28,14 +28,17 @@ public class ArticleController : Controller
     }
 
     [AllowAnonymous]
-    public async Task<IActionResult> Articles([FromQuery] string title = "")
+    public async Task<IActionResult> Articles([FromQuery] ArticleListViewModel vm)
     {
-        title = title.Trim();
-        var viewModel = new ArticleListViewModel()
+        if (string.IsNullOrWhiteSpace(vm.Title))
         {
-            Articles = await _articleService.FindAllArticlesAsync(title)
-        };
-        return View(viewModel);
+            vm.Title = "";
+        }
+        List<SelectListItem> propertiesToSelect = [new() { Text = "Названию", Value = "Title" },
+                                                   new () { Text = "Дате", Value = "CreationDate" } ];
+        ViewBag.PropertiesToSelect = propertiesToSelect;
+        ViewBag.Articles = await _articleService.FindAllArticlesAsync(vm);
+        return View();
     }
 
     [Route("my")]
@@ -43,11 +46,8 @@ public class ArticleController : Controller
     public async Task<IActionResult> MyArticles()
     {
         Log("Получение списка статей");
-        var viewModel = new ArticleListViewModel()
-        {
-            Articles = await _articleService.FindAllArticlesForUserAsync()
-        };
-        return View(viewModel);
+        ViewBag.Articles = await _articleService.FindAllArticlesForUserAsync();
+        return View();
     }
 
     [Route("{articleId}")]

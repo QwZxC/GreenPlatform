@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Domain.Dtos;
+using Domain.Entities;
 
 namespace Domain.Repositories;
 
@@ -11,5 +12,5 @@ public interface IArticleRepository : IBaseRepository<Article>
     /// <returns></returns>
     Task<List<Article>> FindAllArticlesForUserAsync(Guid userId);
 
-    Task<List<Article>> FindAllArticelsByTitle(string name);
+    Task<List<Article>> FindAllArticelsByTitle(ArticleListViewModel vm);
 }

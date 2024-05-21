@@ -11,7 +11,12 @@
     color: whitesmoke;
 }
 
-.btn-orange:hover {
-    background: #eb9800;
-    color: whitesmoke;
+    .btn-orange:hover {
+        background: #eb9800;
+        color: whitesmoke;
+    }
+
+.btn-sort {
+    background-color: transparent;
+    border-color: transparent;
 }

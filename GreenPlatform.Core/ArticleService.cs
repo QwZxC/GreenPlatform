@@ -52,10 +52,9 @@ public class ArticleService : IArticleService
         await _articleRepository.SaveAsync();
     }
 
-    public async Task<List<Article>> FindAllArticlesAsync(string title = "")
+    public async Task<List<Article>> FindAllArticlesAsync(ArticleListViewModel vm)
     {
-        return string.IsNullOrWhiteSpace(title) ? await _articleRepository.FindAllAsync() :
-            await _articleRepository.FindAllArticelsByTitle(title);
+        return await _articleRepository.FindAllArticelsByTitle(vm);
     }
 
     public async Task<List<Article>> FindAllArticlesForUserAsync()

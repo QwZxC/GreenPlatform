@@ -1,4 +1,5 @@
 ﻿using Common.Exceptions;
+using Domain.Dtos;
 using Domain.Entities;
 using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -16,10 +17,17 @@ public class ArticleRepository : BaseRepository<Article>, IArticleRepository
     {
     }
 
-    public async Task<List<Article>> FindAllArticelsByTitle(string title)
+    public async Task<List<Article>> FindAllArticelsByTitle(ArticleListViewModel vm)
     {
-        return await _context.Article.Include(article => article.Tags)
-            .Where(article => article.Title.Contains(title)).ToListAsync();
+        IQueryable<Article> query = _context.Article.Include(article => article.Comments)
+            .Include(article => article.Tags)
+            .Where(article => article.Title.Contains(vm.Title));
+        var orderBy = GetOrderByExpression<Article>(vm.PropertyNameToSorting);
+        if (orderBy != null)
+        {
+            query = orderBy(query);
+        }
+        return await query.ToListAsync();
     }
 
     public async Task<List<Article>> FindAllArticlesForUserAsync(Guid userId)
