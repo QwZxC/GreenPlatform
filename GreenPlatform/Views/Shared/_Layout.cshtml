@@ -37,6 +37,13 @@
                         </li>
                     </ul>
                 </div>
+                <div class="navbar-collapse collapse align-content-start">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Ecology" asp-action="Index">Разное</a>
+                        </li>
+                    </ul>
+                </div>
                 @{
                     Guid userId = _userService.GetAuthorizeUserId();
                     if (userId != Guid.Empty)
@@ -78,13 +85,6 @@
                         </div>
                     }
                 }
-                <div class="navbar-collapse collapse align-content-start">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Ecology" asp-action="Index">Разное</a>
-                        </li>
-                    </ul>
-                </div>
             </div>
         </nav>
     </header>

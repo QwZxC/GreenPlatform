@@ -56,6 +56,7 @@ public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where T
 
     public void Update(TEntity entity)
     {
+        _context.Attach(entity);
         _context.Update(entity);
     }
 

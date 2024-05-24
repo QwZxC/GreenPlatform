@@ -58,6 +58,7 @@ public class ArticleRepository : BaseRepository<Article>, IArticleRepository
     public override async Task<Article> FindByIdAsync(Guid id)
     {
         return await _context.Article
+            .Include(article => article.Tags)
             .Include(article => article.Owner)
             .FirstOrDefaultAsync(article => article.Id == id)
             ?? throw new NotFoundException("Статья не найдена");

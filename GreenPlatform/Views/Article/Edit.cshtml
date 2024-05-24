@@ -1,26 +1,26 @@
 ﻿@using Domain.Dtos;
 @model EditArticleViewModel
 
-<div class="row d-flex align-items-center justify-content-center">
-    <div class="col-md-3 card p-3">
-        <h2 class="text-center text-success">Измените свою статью</h2>
+<div class="card align-items justify-content-center">
+    <div class="row m-5 d-flex">
+        <h1 class="text-center text-success">Измените свою статью</h1>
         <form asp-action="Edit" method="post">
             <div asp-validation-summary="ModelOnly"></div>
-            <input asp-for="ArticleId" value="@Model.ArticleId" hidden />
+            <input asp-for="ArticleId" hidden />
             <div class="mb-1">
                 <label asp-for="Title"></label>
-                <textarea asp-for="Title" class="form-control" />
+                <textarea asp-for="Title" class="form-control"></textarea>
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
 
             <div class="mb-1">
                 <label asp-for="Content"></label>
-                <textarea asp-for="Content" class="form-control" />
+                <textarea asp-for="Content" class="form-control"></textarea>
                 <span asp-validation-for="Content" class="text-danger"></span>
             </div>
 
             <div class="d-flex flex-column align-items-start">
-                <h4><label asp-for="TagGuids">Теги</label></h4>
+                <h4><label asp-for="TagGuids"></label></h4>
                 <span asp-validation-for="TagGuids" class="text-danger"></span>
                 <select class="form-select" asp-items="ViewBag.TagsToSelect" asp-for="TagGuids" multiple>
                     <option class="text-lg" disabled>Добавьте теги к своей статье</option>
@@ -33,7 +33,7 @@
                     <a asp-action="MyArticles" class="btn btn-danger">Отмена</a>
                 </div>
                 <div class="col-4">
-                    <input type="submit" value="Изменить" class="btn btn- btn-sm float-end" />
+                    <input type="submit" value="Изменить" class="btn btn-orange float-end" />
                 </div>
             </div>
         </form>

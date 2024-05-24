@@ -117,6 +117,7 @@ public class ArticleController : Controller
     {
         if (!ModelState.IsValid)
         {
+            ViewBag.TagsToSelect = await GetTagsAsync();
             return View();
         }
         Log($"Изменена статья{viewModel.ArticleId}");

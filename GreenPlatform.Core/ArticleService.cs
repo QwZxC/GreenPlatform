@@ -22,14 +22,12 @@ public class ArticleService : IArticleService
 
     public async Task CreateAsync(CreateArticleViewModel viewModel)
     {
-        List<Tag> tags = new List<Tag>();
-        viewModel.TagGuids.ForEach(async guid => tags.Add(await _tagService.FindTagByIdAsync(guid)));
         Article article = new Article()
         {
             Id = Guid.NewGuid(),
             Title = viewModel.Title,
             Content = viewModel.Content,
-            Tags = tags,
+            Tags = await GetTagsAsync(viewModel.TagGuids),
             OwnerId = _userService.GetAuthorizeUserId(),
             CreationDate = DateTime.UtcNow,
         };
@@ -49,6 +47,8 @@ public class ArticleService : IArticleService
         Article article = await _articleRepository.FindByIdAsync(viewModel.ArticleId);
         article.Title = viewModel.Title;
         article.Content = viewModel.Content;
+        article.Tags = await GetTagsAsync(viewModel.TagGuids);
+        _articleRepository.Update(article);
         await _articleRepository.SaveAsync();
     }
 
@@ -66,5 +66,11 @@ public class ArticleService : IArticleService
     public async Task<Article> FindArticleByIdAsync(Guid id)
     {
         return await _articleRepository.FindByIdAsync(id);
+    }
+    private async Task<List<Tag>> GetTagsAsync(List<Guid> tagGuids)
+    {
+        List<Tag> tags = new List<Tag>();
+        tagGuids.ForEach(async guid => tags.Add(await _tagService.FindTagByIdAsync(guid)));
+        return tags;
     }
 }
