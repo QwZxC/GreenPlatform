@@ -57,6 +57,11 @@ public class ArticleService : IArticleService
         return await _articleRepository.FindAllArticelsByTitle(vm);
     }
 
+    public async Task<List<Article>> FindAllArticlesAsync(ArticleListViewModel vm, bool bySubscription)
+    {
+        return await _articleRepository.FindAllArticelsByTitle(vm, bySubscription, _userService.GetAuthorizeUserId());
+    }
+
     public async Task<List<Article>> FindAllArticlesForUserAsync()
     {
         return await _articleRepository

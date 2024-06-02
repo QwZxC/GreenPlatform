@@ -1,5 +1,4 @@
-﻿using Common.Exceptions;
-using Domain.Entities;
+﻿using Domain.Entities;
 using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,7 +8,7 @@ namespace Infrastructure.Repositories;
 /// Реализация IUserRepository.
 /// Так же реализует в себе IBaseRepository,
 /// путём наследования от BaseRepository
-/// </summary>
+/// </summary>  
 public class UserRepository : BaseRepository<GreenPlatformUser>, IUserRepository
 {
 
@@ -21,6 +20,7 @@ public class UserRepository : BaseRepository<GreenPlatformUser>, IUserRepository
     public async Task<GreenPlatformUser> FindByLoginAsync(string login)
     {
         return await _context.GreenPlatformUser.Include(user => user.Roles)
+            .Include(user => user.Subscribers)
             .Include(user => user.Articles).ThenInclude(article => article.Tags)
             .FirstOrDefaultAsync(dbUser => dbUser.Login == login);
     }

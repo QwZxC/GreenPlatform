@@ -2,74 +2,151 @@
 @using Domain.Entities
 @model ArticleListViewModel
 
-<div class="d-flex flex-column">
-    <div class="flex-column d-flex card justify-content-between align-items-center mb-3">
-        <h2>Статьи</h2>
-        <a class="btn btn-outline-success mb-3" asp-action="Create">
-            <i class="fa fa-plus" aria-hidden="true"></i>
-        </a>
-    </div>
-    <div class="d-flex align-self-center card p-2" style="width: 40%;">
-        <div asp-validation-summary="ModelOnly"></div>
-        <form asp-action="Articles" class="flex-fill" method="get">
-            <div class="d-flex align-items-center">
-                <div class="flex-fill me-3">
-                    <input name="title" class="form-control" placeholder="Введите название статьи..." />
-                </div>
-                <div class="mh-1">
-                    <button type="submit" class="btn btn-success">
-                        <i class="fa fa-search" aria-hidden="true"></i>
-                    </button>
-                </div>
-                <div class="ms-3">
-                    <label asp-for="PropertyNameToSorting" class="ms-1 control-label"></label>
-                    <select class="form-select" asp-items="ViewBag.PropertiesToSelect" asp-for="PropertyNameToSorting">
-                    </select>
-                </div>
-            </div>
-        </form>
-    </div>
-    <div class="d-flex justify-content-left flex-wrap">
-        @if (ViewBag.Articles.Count == 0)
-        {
-            <p>Статей по вашему запросу нет</p>
-        }
-        @foreach (Article article in ViewBag.Articles)
-        {
-            <div class="card m-3 article_card"
-                 style="width: 30%;">
-                <div class="card-body">
-                    @if (article.Title.Length > 28)
-                    {
-                        <h5 class="card-title">@article.Title.Substring(0, 28)...</h5>
-                    }
-                    else if (article.Title.Length == 28)
-                    {
-                        <h5 class="card-title">@article.Title.Substring(0, 28)</h5>
-                    }
-                    else
-                    {
-                        <h5 class="card-title">@article.Title</h5>
-                    }
-                    <p class="card-text">@article.Content.Substring(0, 76)...</p>
-                    <div class="card-subtitle d-flex">
-                        <h6 class="card-subtitle">@article.CreationDate.ToLongDateString() в @article.CreationDate.ToShortTimeString()</h6>
-                    </div>
-                    <div class="d-flex flex-row align-items-end">
-                        <a class="btn btn-success mt-3"
-                           asp-action="Article"
-                           asp-route-articleId="@article.Id">
-                            Читать
-                        </a>
-                        <div class="d-flex flex-wrap">
-                            @foreach (var tag in article.Tags)
-                            {
-                                <span class="tag ms-2 mt-2">@tag.Name</span>
-                            }
+<div class="nav nav-tabs justify-content-center">
+    <button class="nav-link active me-3" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">
+        Все статьи
+    </button>
+    <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">
+        Подписки
+    </button>
+</div>
+
+<div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+        <div class="d-flex flex-column p-2">
+            <div class="flex-row d-flex card justify-content-between align-items-center mb-3">
+                <div asp-validation-summary="ModelOnly"></div>
+                <form asp-action="Articles" class="flex-fill p-2" method="get">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-fill me-3">
+                            <input name="title" class="form-control" placeholder="Введите название статьи..." />
+                        </div>
+                        <div class="mh-1">
+                            <button type="submit" class="btn btn-success">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <div class="ms-3">
+                            <label asp-for="PropertyNameToSorting" class="ms-1 control-label"></label>
+                            <select class="form-select" asp-items="ViewBag.PropertiesToSelect" asp-for="PropertyNameToSorting">
+                            </select>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
-        }
+
+            <div class="d-flex justify-content-left flex-wrap">
+                @if (ViewBag.Articles.Count == 0)
+                {
+                    <p>Статей по вашему запросу нет</p>
+                }
+                @foreach (Article article in ViewBag.Articles)
+                {
+                    <div class="card m-3 article_card"
+                         style="width: 30%;">
+                        <div class="card-body">
+                            @if (article.Title.Length > 28)
+                            {
+                                <h5 class="card-title">@article.Title.Substring(0, 28)...</h5>
+                            }
+                            else if (article.Title.Length == 28)
+                            {
+                                <h5 class="card-title">@article.Title.Substring(0, 28)</h5>
+                            }
+                            else
+                            {
+                                <h5 class="card-title">@article.Title</h5>
+                            }
+                            <p class="card-text">@article.Content.Substring(0, 76)...</p>
+                            <div class="card-subtitle d-flex">
+                                <h6 class="card-subtitle">@article.CreationDate.ToLongDateString() в @article.CreationDate.ToShortTimeString()</h6>
+                            </div>
+                            <div class="d-flex flex-row align-items-end">
+                                <a class="btn btn-success mt-3"
+                                   asp-action="Article"
+                                   asp-route-articleId="@article.Id">
+                                    Читать
+                                </a>
+                                <div class="d-flex flex-wrap">
+                                    @foreach (var tag in article.Tags)
+                                    {
+                                        <span class="tag ms-2 mt-2">@tag.Name</span>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+        <div class="d-flex flex-column p-2">
+            <div class="flex-row d-flex card justify-content-between align-items-center mb-3">
+                <div asp-validation-summary="ModelOnly"></div>
+                <form asp-action="Articles" class="flex-fill p-2" method="get">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-fill me-3">
+                            <input name="title" class="form-control" placeholder="Введите название статьи..." />
+                        </div>
+                        <div class="mh-1">
+                            <button type="submit" class="btn btn-success">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <div class="ms-3">
+                            <label asp-for="PropertyNameToSorting" class="ms-1 control-label"></label>
+                            <select class="form-select" asp-items="ViewBag.PropertiesToSelect" asp-for="PropertyNameToSorting">
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="d-flex justify-content-left flex-wrap">
+                @if (ViewBag.ArticlesBySubscription.Count == 0)
+                {
+                    <p>Статей по вашему запросу нет</p>
+                }
+                @foreach (Article article in ViewBag.ArticlesBySubscription)
+                {
+                    <div class="card m-3 article_card"
+                         style="width: 30%;">
+                        <div class="card-body">
+                            @if (article.Title.Length > 28)
+                            {
+                                <h5 class="card-title">@article.Title.Substring(0, 28)...</h5>
+                            }
+                            else if (article.Title.Length == 28)
+                            {
+                                <h5 class="card-title">@article.Title.Substring(0, 28)</h5>
+                            }
+                            else
+                            {
+                                <h5 class="card-title">@article.Title</h5>
+                            }
+                            <p class="card-text">@article.Content.Substring(0, 76)...</p>
+                            <div class="card-subtitle d-flex">
+                                <h6 class="card-subtitle">@article.CreationDate.ToLongDateString() в @article.CreationDate.ToShortTimeString()</h6>
+                            </div>
+                            <div class="d-flex flex-row align-items-end">
+                                <a class="btn btn-success mt-3"
+                                   asp-action="Article"
+                                   asp-route-articleId="@article.Id">
+                                    Читать
+                                </a>
+                                <div class="d-flex flex-wrap">
+                                    @foreach (var tag in article.Tags)
+                                    {
+                                        <span class="tag ms-2 mt-2">@tag.Name</span>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
     </div>
 </div>

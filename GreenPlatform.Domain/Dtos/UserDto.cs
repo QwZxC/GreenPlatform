@@ -7,5 +7,6 @@ public record UserDto(
     string Login,
     string? AboutMe,
     string? AvatarPath,
-    List<Article> Articles
-    );
+    List<Article> Articles,
+    List<Subscription> Subscriptions,
+    List<Subscription> Subscribers);

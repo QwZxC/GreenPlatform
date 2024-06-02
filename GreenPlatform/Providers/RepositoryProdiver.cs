@@ -12,6 +12,6 @@ public static class RepositoryProdiver
         services.AddScoped<ITagRepository, TagRepository>();
         services.AddScoped<IArticleRepository, ArticleRepository>();
         services.AddScoped<ICommentRepository, CommentRepository>();
-
+        services.AddScoped<ISubscribeRepository, SubscribeRepository>();
     }
 }

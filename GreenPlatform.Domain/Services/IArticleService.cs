@@ -9,6 +9,7 @@ public interface IArticleService
     Task DeleteByIdAsync(Guid articleId);
     Task EditAsync(EditArticleViewModel viewModel);
     Task<List<Article>> FindAllArticlesAsync(ArticleListViewModel vm);
+    Task<List<Article>> FindAllArticlesAsync(ArticleListViewModel vm, bool bySubscription);
     Task<List<Article>> FindAllArticlesForUserAsync();
     Task<Article> FindArticleByIdAsync(Guid id);
 }

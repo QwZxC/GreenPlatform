@@ -16,8 +16,8 @@ public class GreenPlatformUser : BaseEntity
     public string AccessToken { get; set; }
     public string RefreshToken { get; set; }
     public List<Article> Articles { get; set; }
-    [NotMapped]
+
     public List<Subscription> Subscriptions { get; set; }
-    [NotMapped]
+    
     public List<Subscription> Subscribers { get; set; }
 }

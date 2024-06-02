@@ -7,4 +7,5 @@ public class ArticleListViewModel
     public string Title { get; set; } = string.Empty;
     [DisplayName("Отсортировать по")]
     public string PropertyNameToSorting { get; set; } = "CreationDate";
+    public bool BySubscription { get; set; }
 }

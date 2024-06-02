@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Domain.Entities;
+using System.Linq;
 
 namespace GreenPlatform.Controllers;
 
@@ -38,6 +39,12 @@ public class ArticleController : Controller
                                                    new () { Text = "Дате", Value = "CreationDate" } ];
         ViewBag.PropertiesToSelect = propertiesToSelect;
         ViewBag.Articles = await _articleService.FindAllArticlesAsync(vm);
+        ViewBag.ArticlesBySubscription = new List<Article>();
+        
+        if (!string.IsNullOrWhiteSpace(Request.Cookies["Authorization"]))
+        {
+            ViewBag.ArticlesBySubscription = await _articleService.FindAllArticlesAsync(vm, vm.BySubscription);
+        }
         return View();
     }
 
