@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using AutoMapper;
 using GreenPlatform.Domain.Dtos;
 using Domain.Dtos;
+using Common.Exceptions;
 
 namespace Core;
 
@@ -64,7 +65,7 @@ public class UserService : IUserService
 
     public async Task<GreenPlatformUser?> FindUserByLoginAndPasswordAsync(string login, string password)
     {
-        GreenPlatformUser user = await _userRepository.FindByLoginAsync(login);
+        GreenPlatformUser user = await _userRepository.FindByLoginAsync(login) ?? throw new NotFoundException($"Пользователь {login} не найден");
 
         if (_passwordHasher.Verify(password, user?.Password))
         {

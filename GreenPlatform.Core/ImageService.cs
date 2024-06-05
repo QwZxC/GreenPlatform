@@ -42,4 +42,13 @@ public class ImageService : IImageService
         GreenPlatformUser user = await _userRepository.FindByIdAsync(userId);
         return user.AvatarPath;
     }
+
+    public async Task DeleteUserAvatarAsync(Guid userId)
+    {
+        GreenPlatformUser user = await _userRepository.FindByIdAsync(userId);
+        DeletePreviousAvatar(user);
+        user.AvatarPath = null;
+        _userRepository.Update(user);
+        await _userRepository.SaveAsync();
+    }
 }

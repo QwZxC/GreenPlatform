@@ -66,7 +66,7 @@ async function createComment({ comment, div }) {
                     <div class="d-flex flex-row justify align-content-start">
                         <img src="../image/${userAvatarPath}" class="image-comment card-img-top img-cover p-3" alt="Raeesh"/>
                         <div>
-                            <h2 class="me-2">${comment.creator.login}</h2>
+                            <a class="fs-5 link-secondary link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="/Account/PersonalAccount?login=${ comment.creator.login}">${comment.creator.login}</a>
                             <label class="text-center align-content-center me-2">${formatDate(comment.creationDate)}</label>
                         </div>
                         <form action="/${comment.id}?articleId=${comment.articleId}"
@@ -92,7 +92,7 @@ async function createComment({ comment, div }) {
                     <div class=d-flex flex-row>
                         <img src="../image/${userAvatarPath}" class="image-comment card-img-top img-cover p-3" alt="Raeesh"/>
                         <div class="align-content-center">
-                            <h2 class="me-2">${comment.creator.login}</h2>
+                            <a class="fs-5 link-secondarylink-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="/Account/PersonalAccount?login=${ comment.creator.login}">${comment.creator.login}</a>
                             <label class="text-center align-content-center me-2">${formatDate(comment.creationDate)}</label>
                         </div>
                     </div>

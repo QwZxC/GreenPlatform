@@ -15,7 +15,7 @@
     {
         <img src="~/image/@Model.SelectedArticle.Owner.AvatarPath" class="image-lg card img-cover p-3" alt="Raeesh" />
     }
-    <h3 class="col">@Model.SelectedArticle.Owner.Login•@Model.SelectedArticle.CreationDate.ToLongDateString()</h3>
+    <h3><a class="col nav-link text-dark" asp-controller="Account" asp-action="PersonalAccount" asp-route-login="@Model.SelectedArticle.Owner.Login">@Model.SelectedArticle.Owner.Login•@Model.SelectedArticle.CreationDate.ToLongDateString()</a></h3>
     <h1 class="text-center">@Model.SelectedArticle.Title</h1>
 </div>
 

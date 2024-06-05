@@ -11,6 +11,11 @@ public interface IArticleRepository : IBaseRepository<Article>
     /// <param name="userId"></param>
     /// <returns></returns>
     Task<List<Article>> FindAllArticlesForUserAsync(Guid userId);
+    /// <summary>
+    /// Осуществляет поиск статей по названию
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns></returns>
 
     Task<List<Article>> FindAllArticelsByTitle(ArticleListViewModel vm);
 }

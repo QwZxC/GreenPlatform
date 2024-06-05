@@ -1,28 +1,28 @@
 ﻿@using Domain.Dtos;
 @model EditAccountViewModel;
 
-<div class="card d-flex flex-column align-items-center justify-content-center">
-    <form asp-action="EditAccountInfo" method="post" enctype="multipart/form-data">
+<div class="card d-flex flex-column align-items-center">
+    <form class="flex-fill m-3" asp-action="EditAccountInfo" method="post" enctype="multipart/form-data">
         <div asp-validation-summary="ModelOnly"></div>
-        <div>
-            <div class="mb-1">
-                <label asp-for="Login"></label>
-                <input asp-for="Login" class="form-control" value="@ViewBag.User.Login" />
-                <span asp-validation-for="Login" class="text-danger"></span>
-            </div>
-            <div class="mb-1">
-                <label asp-for="AboutMe"></label>
-                <input asp-for="AboutMe" class="form-control" value="@ViewBag.User.AboutMe" />
-                <span asp-validation-for="Login" class="text-danger"></span>
-            </div>
-            <div class="mb-1">
-                <label asp-for="ProfileImage"></label>
+        <div class="mb-1">
+            <label asp-for="Login"></label>
+            <input asp-for="Login" class="form-control" placeholder="Логин" value="@ViewBag.User.Login" />
+            <span asp-validation-for="Login" class="text-danger"></span>
+        </div>
+        <div class="mb-1">
+            <label asp-for="AboutMe"></label>
+            <input asp-for="AboutMe" class="form-control" placeholder="О себе" value="@ViewBag.User.AboutMe" />
+            <span asp-validation-for="Login" class="text-danger"></span>
+        </div>
+        <div class="mb-1 d-flex flex-column">
+            <label asp-for="ProfileImage"></label>
+            <div class="d-flex flex-row">
                 <input asp-for="ProfileImage" class="form-control" />
                 <span asp-validation-for="ProfileImage" class="text-danger"></span>
             </div>
-            <div class="col-4">
-                <input type="submit" value="Сохранить" class="btn btn-primary btn-sm float-end" />
-            </div>
+        </div>
+        <div class="mb-1">
+            <input type="submit" value="Сохранить" class="btn btn-primary" />
         </div>
     </form>
 </div>

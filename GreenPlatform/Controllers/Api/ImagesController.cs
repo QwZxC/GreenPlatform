@@ -5,7 +5,7 @@ namespace GreenPlatform.Controllers.Api;
 
 [Route("api/[controller]")]
 [ApiController]
-public class ImagesController : ControllerBase
+public class ImagesController : Controller
 {
     private readonly IImageService _imageSrvice;
 
@@ -19,5 +19,12 @@ public class ImagesController : ControllerBase
     {
         string avatarPath = await _imageSrvice.GetUserAvatarNameAsync(userId);
         return !string.IsNullOrWhiteSpace(avatarPath) ? Ok(avatarPath) : NotFound("empty-avatar.jpg");
+    }
+
+    [HttpPost("{userId}")]
+    public async Task<IActionResult> DeleteUserAvatar(Guid userId)
+    {
+        await _imageSrvice.DeleteUserAvatarAsync(userId);
+        return Redirect(Request.Headers.Referer.ToString());
     }
 }
