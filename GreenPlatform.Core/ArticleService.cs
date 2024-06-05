@@ -59,7 +59,10 @@ public class ArticleService : IArticleService
 
     public async Task<List<Article>> FindAllArticlesAsync(ArticleListViewModel vm, bool bySubscription)
     {
-        return await _articleRepository.FindAllArticelsByTitle(vm, bySubscription, _userService.GetAuthorizeUserId());
+        Guid authorizeUserId = _userService.GetAuthorizeUserId();
+        List<Article> articles = await _articleRepository.FindAllArticelsByTitle(vm);
+        return articles.FindAll(article => article.Owner.Subscribers.Exists(subscribe => subscribe.SubscriberId == authorizeUserId));
+        
     }
 
     public async Task<List<Article>> FindAllArticlesForUserAsync()

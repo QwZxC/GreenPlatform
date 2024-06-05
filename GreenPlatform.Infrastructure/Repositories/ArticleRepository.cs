@@ -21,23 +21,8 @@ public class ArticleRepository : BaseRepository<Article>, IArticleRepository
     {
         IQueryable<Article> query = _context.Article.Include(article => article.Comments)
             .Include(article => article.Tags)
-            .Where(article => article.Title.Contains(vm.Title));
-        var orderBy = GetOrderByExpression<Article>(vm.PropertyNameToSorting);
-        if (orderBy != null)
-        {
-            query = orderBy(query);
-        }
-        return await query.ToListAsync();
-    }
-
-    public async Task<List<Article>> FindAllArticelsByTitle(ArticleListViewModel vm, bool bySubscription, Guid authorizedUserId)
-    {
-        IQueryable<Article> query = _context.Article
-            .Include(article => article.Comments)
             .Include(article => article.Owner).ThenInclude(owner => owner.Subscribers)
-            .Include(article => article.Tags)
-            .Where(article => article.Title.Contains(vm.Title) && 
-            article.Owner.Subscribers.Exists(subscriber => subscriber.SubscriberId == authorizedUserId));
+            .Where(article => article.Title.Contains(vm.Title));
         var orderBy = GetOrderByExpression<Article>(vm.PropertyNameToSorting);
         if (orderBy != null)
         {

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Domain.Services;
 using GreenPlatform.Domain.Dtos;
+using Common.Exceptions;
 
 namespace GreenPlatform.Controllers;
 
@@ -79,9 +80,11 @@ public class AccountController : Controller
         return RedirectToAction("Login");
     }
 
+    [AllowAnonymous]
     public async Task<IActionResult> PersonalAccount(string login)
     {
-        ViewBag.User = await _userService.FindUserByLoginAsync(login);
+        ViewBag.User = await _userService.FindUserByLoginAsync(login) ?? 
+            throw new NotFoundException("Пользователь с таким логином не найден.");
         return View();
     }
 

@@ -13,5 +13,4 @@ public interface IArticleRepository : IBaseRepository<Article>
     Task<List<Article>> FindAllArticlesForUserAsync(Guid userId);
 
     Task<List<Article>> FindAllArticelsByTitle(ArticleListViewModel vm);
-    Task<List<Article>> FindAllArticelsByTitle(ArticleListViewModel vm, bool bySubscription, Guid authorizedUserId);
 }
