@@ -89,6 +89,7 @@ public class ArticleController : Controller
     {
         if (!ModelState.IsValid)
         {
+            ViewBag.TagsToSelect = await GetTagsAsync();
             return View();
         }
         await _articleService.CreateAsync(viewModel);
